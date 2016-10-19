@@ -1,17 +1,26 @@
 var express = require('express');
 var app = express();
+var path = require('path');
+var routes = require ('./routes');
+var utils= require('./utils');
+var http = require('http')
+var mongoose = require('mongoose');
+var MongoClient = require('mongodb').MongoClient
+mongoose.Promise = require('bluebird');
 
 
-const pathToStaticDir = path.resolve(__dirname, '.', '/public');
-app.use(express.static(__dirname + '/public'));
+////////
+//Middleware
+///////////////
+
+app.use(express.static(__dirname + '/public', { maxAge: utils.oneDay }));
 
 
-app.get('*', (req, res)=> {
-  const pathToIndex = path.join(pathToStaticDir, 'index.html');
-  res.status(200).sendFile(pathToIndex);
-});
+/////
+//Routes
+//////////
 
+app.get("/login", routes.login)
+app.get('*', routes.wildcard);
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
-});
+app.listen(3000, routes.listen);

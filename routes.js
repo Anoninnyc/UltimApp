@@ -2,14 +2,14 @@ var path = require('path');
 var models= require('./models.js')
 
 
-const pathToStaticDir = path.resolve(__dirname, '.', '/public');
-
+const pathToStaticDir = __dirname+'/client/public/index.html'
+// path.resolve(__dirname, '.', 'client/public');
 const login = (req,res)=> {
   console.log("Trying to login");
 }
 
 const wildcard = (req,res)=>{
-  const pathToIndex = path.join(pathToStaticDir, 'index.html');
+  const pathToIndex = pathToStaticDir;
   res.status(200).sendFile(pathToIndex);
 }
 

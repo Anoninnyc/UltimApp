@@ -4,7 +4,7 @@
   <head>
     <title>Ultimate</title>
     <link rel="shortcut icon" href="https://bit.ly/2e87Qqr">
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="client/public/styles.css">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,6 +18,68 @@
     <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
   </head>
 
+<style>
+  
+  section#fixedLanding {
+    background-color: blue;
+    height: 350px;
+    width: 100%;
+    z-index: -1;
+    position: fixed;
+    top: 50px;
+}
+
+section#benefits {
+    background-color: red;
+    height: 1000px;
+    width: 100%;
+    z-index: 1;
+    position: absolute;
+    top: 300px;
+    text-align: center;
+}
+
+header {
+  position: fixed;
+  z-index: 2;
+  background-color: pink;
+  width: 100%;
+  height: 60px;
+}
+
+body{
+    height: 100%;
+    margin:0;
+}
+
+div#Benefit1, div#Benefit2, div#Benefit3, div#Benefit4 {
+    width: 300px;
+    padding: 15px;
+    border: 1px solid black;
+    height: 300px;
+    text-align: center;
+
+}
+
+div#leftBenes, div#rightBenes {
+    display: inline-block;
+}
+
+footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+    background-color: blue;
+}
+
+.landingImg {
+    position: relative;
+    width: 200px;
+}
+
+</style>
   <body>
 
     <header>
@@ -43,12 +105,12 @@
 
     <section id="benefits">
       <div id="leftBenes">
-        <div id="Benefit1">Benefit1</div>
-        <div id="Benefit2">Benefit2</div>
+        <div id="Benefit1"><img src="https://bit.ly/2dEOQeK" class="landingImg" id="img1"/></div>
+        <div id="Benefit2"><img src="https://bit.ly/2dEOQeK" class="landingImg" id="img2"/></div>
       </div>
       <div id="rightBenes">
-        <div id="Benefit3">Benefit3</div>
-        <div id="Benefit4">Benefit4</div>
+        <div id="Benefit3"><img src="https://bit.ly/2dEOQeK" class="landingImg" id="img3"/></div>
+        <div id="Benefit4"><img src="https://bit.ly/2dEOQeK" class="landingImg" id="img4"/></div>
       </div>
 
       <footer>

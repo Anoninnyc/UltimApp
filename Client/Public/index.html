@@ -1,8 +1,7 @@
 <!DOCTYPE HTML>
 <html>
-
   <head>
-    <title>Ultimate</title>
+    <title>UltimApp</title>
     <link rel="shortcut icon" href="https://bit.ly/2e87Qqr">
     <link rel="stylesheet" type="text/css" href="client/public/styles.css">
     <meta charset="utf-8">
@@ -27,19 +26,23 @@
     z-index: -1;
     position: fixed;
     top: 50px;
+    background-image:url("http://bit.ly/2epTmSs");
 }
 
 section#benefits {
-    background-color: red;
-    height: 1000px;
+/*    background-color: red;*/  
+    height: 800px;
     width: 100%;
     z-index: 1;
     position: absolute;
     top: 300px;
     text-align: center;
+    background-image: url("http://bit.ly/2dEDFYv");
+    background-size: 1895px 1700px;
 }
 
 header {
+  background-image: url("https://bit.ly/2eMlJr0");
   position: fixed;
   z-index: 2;
   background-color: pink;
@@ -71,7 +74,8 @@ footer {
     bottom: 0;
     height: 100px;
     width: 100%;
-    background-color: blue;
+    background-image: url(http://bit.ly/2dRnKEH);
+    background-size: 1400px;
 }
 
 .landingImg {
@@ -79,47 +83,44 @@ footer {
     width: 200px;
 }
 
+.card-container {
+  height: 150px;
+  perspective: 600;
+  position: relative;
+  width: 150px;
+}
+.card {
+  height: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  transition: all 1s ease-in-out;
+  width: 100%;
+}
+.card:hover {
+  transform: rotateY(180deg);
+}
+.card .side {
+  backface-visibility: hidden;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+.card .back {
+  transform: rotateY(180deg);
+}
+
+.card-container {
+    text-align: center;
+    position: relative;
+    left: 60px;
+    top: 50px;
+}
+
 </style>
-  <body>
+  <body ng-cloak ng-app="myApp" ng-controller="myCtrl">
+  <script src="/bundle.js"></script>
 
-    <header>
-      <div class="mui-container">
-        <table width="100%">
-          <tr class="mui--appbar-height">
-            <td class="mui--text-title">Ultimapp</td>
-            <td align="right">
-              <ul class="mui-list--inline mui--text-body2">
-                <li><a href="#">About</a></li>
-                <li><a href="#">Pricing</a></li>
-                <li><a href="#">Login</a></li>
-              </ul>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </header>
-
-    <section id="fixedLanding">
-      <h1 id="header">Info</h1>
-    </section>
-
-    <section id="benefits">
-      <div id="leftBenes">
-        <div id="Benefit1"><img src="https://bit.ly/2dEOQeK" class="landingImg" id="img1"/></div>
-        <div id="Benefit2"><img src="https://bit.ly/2dEOQeK" class="landingImg" id="img2"/></div>
-      </div>
-      <div id="rightBenes">
-        <div id="Benefit3"><img src="https://bit.ly/2dEOQeK" class="landingImg" id="img3"/></div>
-        <div id="Benefit4"><img src="https://bit.ly/2dEOQeK" class="landingImg" id="img4"/></div>
-      </div>
-
-      <footer>
-        <div class="mui-container mui--text-center">
-          Made with ♥ by KMA
-        </div>
-      </footer>
-
-    </section>
+ <div ng-view></div>
 
   </body>
 

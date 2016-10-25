@@ -20,6 +20,7 @@
     "angular-router": "0.0.2",
     "angular-sanitize": "^1.5.8",
     "bluebird": "^3.4.6",
+    "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "cors": "^2.8.1",

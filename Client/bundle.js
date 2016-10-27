@@ -58,16 +58,16 @@
 	myApp.controller('myCtrl', function($scope, authService) {
 	  $scope.login = () => {
 	    authService.login($scope, $scope.userNameLogin, $scope.passwordLogin)
-	    $scope.userName = '';
-	    $scope.password = '';
-	    $scope.passConf = '';
+	    // $scope.userName = '';
+	    // $scope.password = '';
+	    // $scope.passConf = '';
 	  };
 
 	  $scope.signup = () => {
 	    authService.signup($scope, $scope.userName, $scope.password, $scope.passConf)
-	    $scope.userName = '';
-	    $scope.password = '';
-	    $scope.passConf = '';
+	    // $scope.userName = '';
+	    // $scope.password = '';
+	    // $scope.passConf = '';
 	  };
 
 	});
@@ -77,17 +77,19 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	myApp.service('authService', function($http) {
+	myApp.service('authService', function() {
 
 	  this.signup = (scope, userName, pass, passConf) => {
-	        if (pass.length<7 ||pass.length>25 ){
+	        if (pass.length<1 ||pass.length>25 ){
 	          console.log("Pass length must be right")
 	      } else if (pass!==passConf){
 	        console.log("They don't match!")
 	      } else {
-	        $.post("/login" , {userName, pass, passConf})
-	      }
+	        $.post("/signup" , {userName, pass, passConf}).then((res,err)=>{
+	          console.log(res,err);
+	        })
 	  }
+	}
 
 	  this.login= (scope, userName, pass) =>{
 	    if (userName.length<50 && pass.length<50){

@@ -1,15 +1,15 @@
 
-
-var express = require('express');
-var app = express();
-var path = require('path');
-var routes = require ('./routes');
-var utils= require('./utils');
-var http = require('http')
-var mongoose = require('mongoose');
-var MongoClient = require('mongodb').MongoClient
+const mongoose = require('mongoose');
+const express = require('express');
+const app = express();
+const path = require('path');
+const routes = require ('./routes');
+const utils= require('./utils');
+const http = require('http')
+const MongoClient = require('mongodb').MongoClient
 mongoose.Promise = require('bluebird');
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
+const sessions = require("client-sessions");
 
 console.log("updated")
 /////////
@@ -25,6 +25,7 @@ MongoClient.connect(URL, function(err, db) {
   }
   db.close();
 });
+mongoose.connect(URL);
 /////
 ///////////
 

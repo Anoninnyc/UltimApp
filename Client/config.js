@@ -12,6 +12,10 @@ myApp.config(function($routeProvider, $locationProvider) {
     templateUrl: '/source/views/signup.html',
     controller: 'myCtrl'
   }).
+   when('/inside', {
+    templateUrl: '/source/views/inside.html',
+    controller: 'myCtrl'
+  }).
   otherwise({
     redirectTo:"/"
   })

@@ -1,53 +1,106 @@
-section#fixedLanding {
+  section#fixedLanding {
     background-color: blue;
     height: 350px;
     width: 100%;
     z-index: -1;
     position: fixed;
     top: 50px;
-}
-
-section#benefits {
-    background-color: red;
-    height: 1000px;
+    background-image: url("http://bit.ly/2epTmSs");
+  }
+  
+  section#benefits {
+    height: 800px;
     width: 100%;
     z-index: 1;
     position: absolute;
     top: 300px;
     text-align: center;
-}
-
-header {
-	position: fixed;
-	z-index: 2;
-	background-color: pink;
-	width: 100%;
-	height: 60px;
-}
-
-body{
+    background-image: url("http://bit.ly/2dEDFYv");
+    background-size: 1895px 1700px;
+  }
+  
+  header {
+    background-image: url("https://bit.ly/2eMlJr0");
+    position: fixed;
+    z-index: 2;
+    background-color: pink;
+    width: 100%;
+    height: 60px;
+  }
+  
+  body {
     height: 100%;
-    margin:0;
-}
-
-div#Benefit1, div#Benefit2, div#Benefit3, div#Benefit4 {
+    margin: 0;
+  }
+  
+  div#Benefit1,
+  div#Benefit2,
+  div#Benefit3,
+  div#Benefit4 {
     width: 300px;
     padding: 15px;
     border: 1px solid black;
     height: 300px;
     text-align: center;
-
-}
-
-div#leftBenes, div#rightBenes {
+  }
+  
+  div#leftBenes,
+  div#rightBenes {
     display: inline-block;
-}
-
-footer {
+  }
+  
+  footer {
     position: absolute;
     left: 0;
     bottom: 0;
     height: 100px;
     width: 100%;
-    background-color: blue;
-}
+    background-image: url(http://bit.ly/2dRnKEH);
+    background-size: 1400px;
+  }
+  
+  .landingImg {
+    position: relative;
+    width: 200px;
+  }
+  
+  .card-container {
+    height: 150px;
+    perspective: 600;
+    position: relative;
+    width: 150px;
+  }
+  
+  .card {
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transition: all 1s ease-in-out;
+    width: 100%;
+  }
+  
+  .card:hover {
+    transform: rotateY(180deg);
+  }
+  
+  .card .side {
+    backface-visibility: hidden;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+  }
+  
+  .card .back {
+    transform: rotateY(180deg);
+  }
+  
+  .card-container {
+    text-align: center;
+    position: relative;
+    left: 60px;
+    top: 50px;
+  }
+  
+  .side>img {
+    width: 150px;
+  }

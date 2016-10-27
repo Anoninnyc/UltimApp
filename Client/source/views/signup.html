@@ -1,0 +1,19 @@
+<div id="signUpView">
+<form>
+  <legend>SignUp!</legend>
+  <div class="mui-textfield mui-textfield--float-label">
+    <input id="loginUserName" ng-model="userName" type="text">
+    <label>UserName</label>
+  </div>
+   <div class="mui-textfield mui-textfield--float-label">
+    <input id="loginPassword" ng-model="password" type="password">
+    <label>Password</label>
+  </div>
+  <div class="mui-textfield mui-textfield--float-label">
+    <input id="loginPasswordConfirm" ng-model="passConf" type="password">
+    <label>Confirm Password</label>
+  </div>
+
+  <button type="submit" class="mui-btn mui-btn--raised" ng-click="signup(userName,password,passConf)">Submit</button>
+</form>
+</div>

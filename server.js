@@ -11,7 +11,7 @@ var MongoClient = require('mongodb').MongoClient
 mongoose.Promise = require('bluebird');
 var bodyParser = require('body-parser');
 
-
+console.log("updated")
 /////////
 ///DB
 var URL = process.env.URL || 'mongodb://localhost:27017/mydatabase';
@@ -33,15 +33,18 @@ MongoClient.connect(URL, function(err, db) {
 //Middleware
 ///////////////
 
-app.use(express.static(__dirname + '/client', { maxAge: utils.oneDay }));
+
+app.use(express.static(__dirname + '/client'));
+app.use(express.static(__dirname + '/client/Public'));
 app.use(bodyParser.urlencoded());
-//app.use(bodyParser.json());
+app.use(bodyParser.json());
 
 /////
 //Routes
 //////////
 
 app.post("/login", routes.login);
+app.post("/signup",routes.signup)
 
 app.get('*', routes.wildcard);
 

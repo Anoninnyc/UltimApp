@@ -8,9 +8,13 @@ const login = (req,res)=> {
   console.log("Trying to login",req.body);
 }
 
+const signup = (req,res)=> {
+  console.log("Trying to signup",req.body);
+}
+
 const wildcard = (req,res)=>{
-  const pathToIndex = pathToStaticDir;
-  res.status(200).sendFile(pathToIndex);
+  res.status(200).sendFile(pathToStaticDir);
+  
 }
 
 const listen = (req,res)=>{
@@ -21,4 +25,6 @@ module.exports= {
 	login,
 	wildcard,
 	listen,
+	signup,
+
 };

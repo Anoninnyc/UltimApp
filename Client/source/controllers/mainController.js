@@ -1,20 +1,16 @@
-myApp.controller('myCtrl', function($scope, authService) {
+myApp.controller('myCtrl', function($scope,$location, authService) {
+
+  $scope.authService=authService;
+  
   $scope.login = () => {
-    authService.login($scope, $scope.userNameLogin, $scope.passwordLogin)
-    // $scope.userName = '';
-     $scope.password = '';
-     $scope.passConf = '';
+    authService.login($scope, $scope.userNameLogin, $scope.passwordLogin);
   };
 
   $scope.signup = () => {
-    authService.signup($scope, $scope.userName, $scope.password, $scope.passConf)
-    // $scope.userName = '';
-     $scope.password = '';
-     $scope.passConf = '';
+    authService.signup($scope, $scope.userName, $scope.password, $scope.passConf);
   };
 
   $scope.logout = () =>{
-    console.log("controller calling logout!")
     authService.logout($scope);
   }
 

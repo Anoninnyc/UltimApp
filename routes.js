@@ -26,7 +26,7 @@ const login = (req, res) => {
         console.log("finaluser", user);
         if (user !== null) {
           req.mySession.userName = req.body.userName;
-          res.send("foundOne")
+          res.send(`foundOne ${req.body.userName}`)
         } else {
           res.send("invalidLogin");
         }
@@ -47,7 +47,7 @@ const signup = (req, res) => {
     if (created) {
       req.mySession.userName = req.body.userName;
 
-      res.send("created")
+      res.send(`created ${req.body.userName}`)
     } else {
       res.send("Already Exists");
     }

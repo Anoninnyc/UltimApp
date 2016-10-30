@@ -1,3 +1,10 @@
+/*//////////////////
+//////////////
+Landing Page
+
+///////////
+////////////////////*/
+
   section#fixedLanding {
     background-color: blue;
     height: 350px;
@@ -104,3 +111,25 @@
   .side>img {
     width: 150px;
   }
+
+
+/*//////////////////
+//////////////
+Nav Bar
+///////////
+////////////////////*/
+
+
+/*//////////////////
+//////////////
+User Feed
+
+///////////
+////////////////////*/
+
+section#userFeed {
+  position: relative;
+  text-align: center;
+  list-style-position: inside;
+  margin: auto;
+}

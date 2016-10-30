@@ -50,5 +50,4 @@ myApp.service('authService', function($location) {
     });
   }
 
-
 })

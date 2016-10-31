@@ -55,25 +55,20 @@
 /* 1 */
 /***/ function(module, exports) {
 
-	myApp.controller('myCtrl', function($scope,$location, authService) {
+	myApp.controller('myCtrl', function($scope,$location, authService, $window) {
 
 	  $scope.authService=authService;
 	  
 	  $scope.login = () => {
 	    authService.login($scope, $scope.userNameLogin, $scope.passwordLogin);
-
 	  };
 
 	  $scope.signup = () => {
-	    authService.signup($scope, $scope.userName, $scope.password, $scope.passConf)
-	    // $scope.userName = '';
-
+	    authService.signup($scope, $scope.userName, $scope.password, $scope.passConf);
 	  };
 
 	  $scope.logout = () =>{
-	    console.log("controller calling logout!")
 	    authService.logout($scope);
-	    console.log($scope.user)
 	  }
 
 	});
@@ -83,7 +78,7 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	myApp.service('authService', function($location) {
+	myApp.service('authService', function($location, $window) {
 	  this.userName='';
 
 	  this.signup = (scope, userName, pass, passConf) => {
@@ -100,6 +95,7 @@
 	      }).then((res, err) => {
 	        if (res.indexOf("created")>-1) {
 	          this.userName=userName;
+	          localStorage.userName=userName;
 	          $location.path("/inside");
 	          scope.$apply();
 	        } else {
@@ -120,6 +116,7 @@
 	        if (res.indexOf("foundOne")>-1) {
 	          console.log("going home");
 	          this.userName=userName;
+	          localStorage.userName=userName;
 	          $location.path("/inside");
 	          scope.$apply();          
 
@@ -143,12 +140,9 @@
 	    });
 	  }
 
-	  this.check= ()=>{
-	    return this.userName;
-	  }
-	  this.change = name =>{
-	    this.userName= name;
-	  }
+	  this.check = ()=>{
+	    return $window.localStorage.getItem("userName");
+	  };
 
 	})
 

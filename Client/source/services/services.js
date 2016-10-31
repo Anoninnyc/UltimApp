@@ -1,4 +1,4 @@
-myApp.service('authService', function($location) {
+myApp.service('authService', function($location, $window) {
   this.userName='';
 
   this.signup = (scope, userName, pass, passConf) => {
@@ -15,6 +15,7 @@ myApp.service('authService', function($location) {
       }).then((res, err) => {
         if (res.indexOf("created")>-1) {
           this.userName=userName;
+          localStorage.userName=userName;
           $location.path("/inside");
           scope.$apply();
         } else {
@@ -35,6 +36,7 @@ myApp.service('authService', function($location) {
         if (res.indexOf("foundOne")>-1) {
           console.log("going home");
           this.userName=userName;
+          localStorage.userName=userName;
           $location.path("/inside");
           scope.$apply();          
 
@@ -58,8 +60,8 @@ myApp.service('authService', function($location) {
     });
   }
 
-  this.check = ()=>{
-    return this.userName;
+  this.check = (val)=>{
+    return $window.localStorage.getItem(val);
   };
 
 })

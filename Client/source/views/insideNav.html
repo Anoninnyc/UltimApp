@@ -2,7 +2,7 @@
   <div class="mui-container">
     <table width="100%">
       <tr class="mui--appbar-height">
-        <td class="mui--text-title" ui-sref="inside">Hi, {{authService.userName}}</td>
+        <td class="mui--text-title" ui-sref="inside">Hi, {{authService.check("userName")}}</td>
         <td align="right">
         <form>
           <mui-textfield type="text" label="Email address" floating></mui-textfield>
@@ -28,7 +28,6 @@
                 <li><a href="#">Option 4</a></li>
               </ul>
             </div>
-            
           </ul>
         </td>
       </tr>

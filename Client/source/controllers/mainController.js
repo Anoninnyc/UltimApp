@@ -1,4 +1,4 @@
-myApp.controller('myCtrl', function($scope,$location, authService) {
+myApp.controller('myCtrl', function($scope,$location, authService, $window) {
 
   $scope.authService=authService;
   

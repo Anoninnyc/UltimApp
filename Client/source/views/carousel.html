@@ -1,91 +1,261 @@
+<div class="container">
 
-
-  <div class="container">
-  
   <button type="button" id="myBtn2" class="btn btn-success btn-lg" id="myBtn">Prev</button>
 
-
-
-<div id="myCarousel" class="carousel slide" data-interval="500">
-    <!-- Indicators -->
-    
+  <div id="myCarousel" class="carousel slide" data-interval="500">
 
     <!-- Wrapper for slides -->
     <div class="carousel-inner" role="listbox">
-      <div class="item active">
+      <div class="item one active">
         <div>First
-          <button type="button" id="firstBtn" class="btn btn-success btn-lg" id="myBtn">Next</button>
+          <br />
+          <br />
+
+          <div class="selectArea" id="selectArea1">
+            <form>
+              <div class="mui-select">
+                <select id="firstDD">
+                  <option>Select an area</option>
+                  <option>Option 2</option>
+                  <option>Option 3</option>
+                  <option>Option 4</option>
+                </select>
+              </div>
+            </form>
+            <div id="slider-1">
+              <div id="custom-handle" class="ui-slider-handle"></div>
+            </div>
+            <h2>Checkbox</h2>
+
+
+            <div class="rad">
+              <input type="radio" id="radio01" name="radio" />
+              <label for="radio01"><span></span>Option 1</label>
+            </div>
+
+            <div class="rad">
+              <input type="radio" id="radio02" name="radio" />
+              <label for="radio02"><span></span>Optionn 2</label>
+            </div>
+            <br/>
+            <br/>
+            <button type="button" id="firstBtn" class="btn btn-success btn-lg nextButton">Next</button>
+
+          </div>
+
+
+
+
+
         </div>
 
       </div>
 
-      <div class="item">
+
+
+
+
+      <div class="item two">
         <div>Second
-          <button type="button" id="secondBtn" class="btn btn-success btn-lg" id="myBtn">Next</button>
+
+          <br/>
+          <br/>
+
+          <div class="selectArea" id="selectArea2">
+            <form>
+              <div class="mui-select">
+                <select id="secondDD">
+                  <option>Select an area</option>
+                  <option>Option 2</option>
+                  <option>Option 3</option>
+                  <option>Option 4</option>
+                </select>
+              </div>
+            </form>
+            <div id="slider-2">
+              <div id="custom-handle2" class="ui-slider-handle"></div>
+            </div>
+            <br/>
+            <br/>
+
+            <button type="button" id="secondBtn" class="btn btn-success btn-lg nextButton">Next</button>
+
+          </div>
+
+          <!-- HTML -->
+
         </div>
       </div>
-    
-      <div class="item">
+
+      <div class="item three" >
         <div>
-        Third
-          <button type="button" id="thirdBtn" class="btn btn-success btn-lg" id="myBtn">Next</button>
+          Third
+          <br/>
+          <br/>
+          <div class="selectArea" id="selectArea3">
+            <form>
+              <div class="mui-select">
+                <select id="thirdDD">
+                  <option>Select an area</option>
+                  <option>Option 2</option>
+                  <option>Option 3</option>
+                  <option>Option 4</option>
+                </select>
+              </div>
+            </form>
+            <div id="slider-3">
+              <div id="custom-handle3" class="ui-slider-handle"></div>
+            </div>
+            <br/>
+            <br/>
+
+            <button type="button" id="thirdBtn" class="btn btn-success btn-lg nextButton">Next</button>
+
+          </div>
 
 
 
         </div>
-       </div>
+      </div>
 
-      <div class="item">
+      <div class="item four">
         <div>Final</div>
-          <button type="submit" class="mui-btn mui-btn--raised">Submit Info</button>
+
+        <div class="selectArea" id="selectArea4">
+          <form>
+            <div class="mui-select">
+              <select id="fourthDD">
+                <option>Select an area</option>
+                <option>Option 2</option>
+                <option>Option 3</option>
+                <option>Option 4</option>
+              </select>
+            </div>
+          </form>
+          <div id="slider-4">
+            <div id="custom-handle4" class="ui-slider-handle"></div>
+          </div>
+        </div>
+
+
+
+        <button id="submitProf" type="submit" class="mui-btn mui-btn--raised" ng-click="submitProfile()"> Submit Info</button>
       </div>
     </div>
-<ol class="carousel-indicators">
+    <ol class="carousel-indicators">
       <li class="item1 active"></li>
       <li class="item2"></li>
       <li class="item3"></li>
       <li class="item4"></li>
     </ol>
- </div>
+  </div>
 </div>
 
 <script>
-$(document).ready(function(){
+
+  $(document).ready(function() {
+    //activate slider
+
+    $(function() {
+      var handle = $("#custom-handle");
+      $("#slider-1").slider({
+        value: 0,
+        animate: "slow",
+        orientation: "horizontal",
+        create: function() {
+          handle.text($(this).slider("value"));
+        },
+        slide: function(event, ui) {
+          handle.text(ui.value);
+        }
+      });
+    });
+
+    $(function() {
+      var handle = $("#custom-handle2");
+      $("#slider-2").slider({
+        value: 0,
+        animate: "slow",
+        orientation: "horizontal",
+        create: function() {
+          handle.text($(this).slider("value"));
+        },
+        slide: function(event, ui) {
+          handle.text(ui.value);
+        }
+      });
+    });
+
+    $(function() {
+      var handle = $("#custom-handle3");
+      $("#slider-3").slider({
+        value: 0,
+        animate: "slow",
+        orientation: "horizontal",
+        create: function() {
+          handle.text($(this).slider("value"));
+        },
+        slide: function(event, ui) {
+          handle.text(ui.value);
+        }
+      });
+    });
+
+
+    $(function() {
+      var handle = $("#custom-handle4");
+      $("#slider-4").slider({
+        value: 0,
+        animate: "slow",
+        orientation: "horizontal",
+        create: function() {
+          handle.text($(this).slider("value"));
+        },
+        slide: function(event, ui) {
+          handle.text(ui.value);
+        }
+      });
+    });
+
+
+
+
     // Activate Carousel
     $("#myCarousel").carousel("pause");
 
     // Click on the button to start sliding
-    $("#myBtn").click(function(){
-        $("#myCarousel").carousel("next");
+    $("#myBtn").click(function() {
+      $("#myCarousel").carousel("next");
     });
 
-    $("#firstBtn,#secondBtn,#thirdBtn").click(function(){
-        $("#myCarousel").carousel("next");
+    $("#firstBtn,#secondBtn,#thirdBtn").click(function() {
+      $("#myCarousel").carousel("next");
     });
 
 
     // Click on the button to stop sliding
-    $("#myBtn2").click(function(){
-        $("#myCarousel").carousel("prev");
-    });
-    
-    // Enable Carousel Indicators
-    $(".item1").click(function(){
-        $("#myCarousel").carousel(0);
-        $("#myCarousel").carousel("pause");
-    });
-    $(".item2").click(function(){
-        $("#myCarousel").carousel(1);
-        $("#myCarousel").carousel("pause");
-    });
-    $(".item3").click(function(){
-        $("#myCarousel").carousel(2);
-        $("#myCarousel").carousel("pause");
-    });
-    $(".item4").click(function(){
-        $("#myCarousel").carousel(3);
-        $("#myCarousel").carousel("pause");
+    $("#myBtn2").click(function() {
+      $("#myCarousel").carousel("prev");
     });
 
-});
+    // Enable Carousel Indicators
+    $(".item1").click(function() {
+      $("#myCarousel").carousel(0);
+      $("#myCarousel").carousel("pause");
+    });
+    $(".item2").click(function() {
+      $("#myCarousel").carousel(1);
+      $("#myCarousel").carousel("pause");
+    });
+    $(".item3").click(function() {
+      $("#myCarousel").carousel(2);
+      $("#myCarousel").carousel("pause");
+    });
+    $(".item4").click(function() {
+      $("#myCarousel").carousel(3);
+      $("#myCarousel").carousel("pause");
+    });
+
+  });
+
 </script>

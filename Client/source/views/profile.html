@@ -3,5 +3,7 @@
 <br/>
 
 <!-- Remove 'ng-if' this form has already been filled! -->
-<h1 ng-if="1===1">Let's profile you!</h1>
-<div ng-if="1===1" ui-view="carousel"/>
+<div id="initProfile" ng-if= "!checkPref()">
+<h1 >We haven't profiled you yet!</h1>
+<div ui-view="carousel"/>
+</div>

@@ -26,7 +26,8 @@ const login = (req, res) => {
         console.log("finaluser", user);
         if (user !== null) {
           req.mySession.userName = req.body.userName;
-          res.send(`foundOne ${req.body.userName}`)
+          console.log(user);
+          res.send({"userName":user.userName, "preferences":user.preferences});
         } else {
           res.send("invalidLogin");
         }
@@ -47,7 +48,7 @@ const signup = (req, res) => {
     if (created) {
       req.mySession.userName = req.body.userName;
 
-      res.send(`created ${req.body.userName}`)
+      res.send({"userName":req.body.userName});
     } else {
       res.send("Already Exists");
     }
@@ -70,10 +71,26 @@ const logout = (req, res) => {
 };
 
 
-
 const listen = (req, res) => {
   console.log("listening on port 3000")
 };
+
+const userProfile = (req, res) =>{
+
+    var updateData = {
+      preferences: req.body.preferences
+    };
+
+    User.update({userName: req.body.userName},updateData, function(err,affected) {
+      console.log('affected rows %d', affected);
+      if (!err){
+        res.send("Updated!")
+      }
+    });
+
+
+
+}
 
 module.exports = {
   login,
@@ -81,4 +98,6 @@ module.exports = {
   listen,
   signup,
   logout,
+  userProfile
 };
+

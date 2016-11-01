@@ -1,4 +1,4 @@
-myApp.controller('myCtrl', function($scope,$location, authService, $window) {
+myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService) {
 
   $scope.authService=authService;
   
@@ -13,5 +13,14 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window) {
   $scope.logout = () =>{
     authService.logout($scope);
   }
+
+  $scope.submitProfile= () =>{
+    profileService.submitProfile();
+  };
+
+  $scope.checkPref=()=>{
+    console.log("this is what scope is giving", authService.check("preferences"))
+    return authService.check("preferences");
+  };
 
 });

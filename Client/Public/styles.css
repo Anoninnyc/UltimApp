@@ -178,6 +178,88 @@ Carousel
     list-style: none;
 }
 .item {
-    height: 300px;
+    height: 500px;
     background-color: red;
+}
+
+
+.selectArea {
+    width: 40%;
+    position: relative;
+    margin: auto;
+    top: 50px;
+}
+div#slider-1 {
+    width: 300px;
+}
+
+
+input[type="radio"] {
+    display:none;
+}
+input[type="radio"] + label {
+    color: #292321;
+    font-family:Arial, sans-serif;
+    font-size:14px;
+}
+input[type="radio"] + label span {
+    display:inline-block;
+    width:19px;
+    height:19px;
+    margin:-1px 4px 0 0;
+    vertical-align:middle;
+    cursor:pointer;
+    -moz-border-radius:  50%;
+    border-radius:  50%;
+}
+
+input[type="radio"] + label span {
+     background-color:#292321;
+}
+
+input[type="radio"]:checked + label span{
+     background-color:#CC3300
+}
+
+input[type="radio"] + label span,
+input[type="radio"]:checked + label span {
+  -webkit-transition:background-color 0.4s linear;
+  -o-transition:background-color 0.4s linear;
+  -moz-transition:background-color 0.4s linear;
+  transition:background-color 0.4s linear;
+}
+
+.rad {
+    position: relative;
+    display: inline;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.ui-slider .ui-slider-handle {
+    z-index: 0 !important;
+    
+}
+
+div#custom-handle {
+    width: 30px;
+    text-align: center;
+}
+
+.item:hover{
+  border-radius:25% !important;
+  transition: border-radius 1s !important;
+}
+
+div#initProfile {
+  text-align: center;
+}
+
+.four, .three, .two {
+  border-radius: 25%;
+}
+
+button#submitProf {
+  position: relative;
+  top: 100px;
 }

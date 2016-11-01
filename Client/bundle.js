@@ -55,7 +55,7 @@
 /* 1 */
 /***/ function(module, exports) {
 
-	myApp.controller('myCtrl', function($scope,$location, authService, $window) {
+	myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService) {
 
 	  $scope.authService=authService;
 	  
@@ -71,8 +71,16 @@
 	    authService.logout($scope);
 	  }
 
-	});
+	  $scope.submitProfile= () =>{
+	    profileService.submitProfile();
+	  };
 
+	  $scope.checkPref=()=>{
+	    console.log("this is what scope is giving", authService.check("preferences"))
+	    return authService.check("preferences");
+	  };
+
+	});
 
 /***/ },
 /* 2 */
@@ -93,9 +101,9 @@
 	        pass,
 	        passConf
 	      }).then((res, err) => {
-	        if (res.indexOf("created")>-1) {
+	        if (typeof res ==="object") {
 	          this.userName=userName;
-	          localStorage.userName=userName;
+	          localStorage.userInfo=JSON.stringify(res);;
 	          $location.path("/inside");
 	          scope.$apply();
 	        } else {
@@ -113,10 +121,13 @@
 	        userName,
 	        pass
 	      }).then((res, err) => {
-	        if (res.indexOf("foundOne")>-1) {
-	          console.log("going home");
+	        console.log(typeof res, res);
+	        if (typeof res==="object") {
+	          console.log("going home", res);
 	          this.userName=userName;
-	          localStorage.userName=userName;
+	          localStorage.userInfo=JSON.stringify(res);
+	          //localStorage.userInfo= "blahblahblah"
+
 	          $location.path("/inside");
 	          scope.$apply();          
 
@@ -136,16 +147,35 @@
 	      console.log("calledback!", res, err)
 	      scope.user="";
 	      $location.path("/");
-	      //scope.$apply();
+	      localStorage.userInfo="";
+	      //$window.localStorage.setItem("userInfo","")
 	    });
 	  }
 
 	  this.check = (val)=>{
-	    return $window.localStorage.getItem(val);
+	    return JSON.parse($window.localStorage.getItem("userInfo"))[val]
 	  };
 
 	})
 
+	myApp.service('profileService', function(authService) {
+	  this.submitProfile= ()=>{
+
+	  const dropDowns = [$("#firstDD :selected").text(),$("#secondDD :selected").text(),$("#thirdDD :selected").text(),$("#fourthDD :selected").text()];
+	  const handles = [$("#custom-handle").text(),$("#custom-handle2").text(),$("#custom-handle3").text(),$("#custom-handle4").text()];
+	  const radio1 = $("#radio01")[0].checked;
+	  const radio2= $("#radio02")[0].checked;
+	  const oneChecked = radio1||radio2;
+	  const AllDroppedDown =  dropDowns.indexOf("Select an area")<0;
+	  const allHandled = handles.indexOf("0")<0;
+	  console.log(dropDowns, handles, radio1,radio2, oneChecked, AllDroppedDown, allHandled);
+	  $.post('/profile', {preferences:{dropDowns, handles, radio1,radio2, oneChecked, AllDroppedDown, allHandled}, userName:authService.check("userName")}).then((res,err)=>{
+	    console.log(res, err);
+	  });
+
+	  }
+
+	});
 
 /***/ },
 /* 3 */

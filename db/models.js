@@ -6,6 +6,7 @@ var userSchema = new Schema({
     userName: String,
     password: String,
     salt: String,
+    preferences: Object,
 });
 
 userSchema.plugin(findOrCreate);

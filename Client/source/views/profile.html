@@ -1,2 +1,7 @@
-<div ui-view="navBar"></div>
-<div ui-view="profContent"></div>
+<div ui-view="navBar"/>
+<br/>
+<br/>
+
+<!-- Remove 'ng-if' this form has already been filled! -->
+<h1 ng-if="1===1">Let's profile you!</h1>
+<div ng-if="1===1" ui-view="carousel"/>

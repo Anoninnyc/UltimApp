@@ -1,0 +1,91 @@
+
+
+  <div class="container">
+  
+  <button type="button" id="myBtn2" class="btn btn-success btn-lg" id="myBtn">Prev</button>
+
+
+
+<div id="myCarousel" class="carousel slide" data-interval="500">
+    <!-- Indicators -->
+    
+
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner" role="listbox">
+      <div class="item active">
+        <div>First
+          <button type="button" id="firstBtn" class="btn btn-success btn-lg" id="myBtn">Next</button>
+        </div>
+
+      </div>
+
+      <div class="item">
+        <div>Second
+          <button type="button" id="secondBtn" class="btn btn-success btn-lg" id="myBtn">Next</button>
+        </div>
+      </div>
+    
+      <div class="item">
+        <div>
+        Third
+          <button type="button" id="thirdBtn" class="btn btn-success btn-lg" id="myBtn">Next</button>
+
+
+
+        </div>
+       </div>
+
+      <div class="item">
+        <div>Final</div>
+          <button type="submit" class="mui-btn mui-btn--raised">Submit Info</button>
+      </div>
+    </div>
+<ol class="carousel-indicators">
+      <li class="item1 active"></li>
+      <li class="item2"></li>
+      <li class="item3"></li>
+      <li class="item4"></li>
+    </ol>
+ </div>
+</div>
+
+<script>
+$(document).ready(function(){
+    // Activate Carousel
+    $("#myCarousel").carousel("pause");
+
+    // Click on the button to start sliding
+    $("#myBtn").click(function(){
+        $("#myCarousel").carousel("next");
+    });
+
+    $("#firstBtn,#secondBtn,#thirdBtn").click(function(){
+        $("#myCarousel").carousel("next");
+    });
+
+
+    // Click on the button to stop sliding
+    $("#myBtn2").click(function(){
+        $("#myCarousel").carousel("prev");
+    });
+    
+    // Enable Carousel Indicators
+    $(".item1").click(function(){
+        $("#myCarousel").carousel(0);
+        $("#myCarousel").carousel("pause");
+    });
+    $(".item2").click(function(){
+        $("#myCarousel").carousel(1);
+        $("#myCarousel").carousel("pause");
+    });
+    $(".item3").click(function(){
+        $("#myCarousel").carousel(2);
+        $("#myCarousel").carousel("pause");
+    });
+    $(".item4").click(function(){
+        $("#myCarousel").carousel(3);
+        $("#myCarousel").carousel("pause");
+    });
+
+});
+</script>

@@ -140,8 +140,8 @@
 	    });
 	  }
 
-	  this.check = ()=>{
-	    return $window.localStorage.getItem("userName");
+	  this.check = (val)=>{
+	    return $window.localStorage.getItem(val);
 	  };
 
 	})
@@ -208,10 +208,11 @@
 	          // ,
 	          // controller: 'myCtrl'
 	        },
-	        'profContent@inside': {
+	        'profContent@': {
 	          templateUrl: '/source/views/profContent.html'
-	          // ,
-	          // controller: 'myCtrl'
+	        },
+	        'carousel@profile':{
+	          templateUrl: '/source/views/carousel.html'
 	        }
 	      }
 	    })

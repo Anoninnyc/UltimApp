@@ -133,3 +133,51 @@ section#userFeed {
   list-style-position: inside;
   margin: auto;
 }
+
+/*//////////////////
+//////////////
+Carousel
+
+///////////
+////////////////////*/
+
+
+
+  .carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      width: 70%;
+      margin: auto;
+  }
+
+    .carousel-indicators li {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    /* margin: 1px; */
+    /* text-indent: -999px; */
+    cursor: pointer;
+    background-color: #000\9;
+    /* background-color: rgba(0,0,0,0); */
+    border: 1px solid #fff;
+    border-radius: 10px;
+    /* color: black; */
+    background-color: black;
+    top: 50%;
+    position: relative;
+}
+
+.carousel-indicators {
+    position: relative;
+    bottom: 0px;
+    left: 50%;
+    z-index: 15;
+    width: 60%;
+    padding-left: 0;
+    margin-left: -30%;
+    text-align: center;
+    list-style: none;
+}
+.item {
+    height: 300px;
+    background-color: red;
+}

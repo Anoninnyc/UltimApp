@@ -55,10 +55,11 @@ myApp.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
           // ,
           // controller: 'myCtrl'
         },
-        'profContent@inside': {
+        'profContent@': {
           templateUrl: '/source/views/profContent.html'
-          // ,
-          // controller: 'myCtrl'
+        },
+        'carousel@profile':{
+          templateUrl: '/source/views/carousel.html'
         }
       }
     })

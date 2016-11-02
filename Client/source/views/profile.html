@@ -3,7 +3,13 @@
 <br/>
 
 <!-- Remove 'ng-if' this form has already been filled! -->
-<div id="initProfile" ng-if= "!checkPref()">
-<h1 >We haven't profiled you yet!</h1>
+<div id="initProfile" ng-if= "(!checkPref())||(profileService.redo)">
+<h1>Let's get you profiled!</h1>
 <div ui-view="carousel"/>
+</div>
+
+<div id="initProfile" ng-if= "(!!checkPref()) && (!profileService.redo)">
+<h1>Thanks for filling out the form- wanna </h1>
+<button type="submit" class="mui-btn mui-btn--raised"  ng-click="redoProfile()">Update your preferences?</button>
+
 </div>

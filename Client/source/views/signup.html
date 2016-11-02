@@ -2,18 +2,20 @@
 <form>
   <legend>SignUp!</legend>
   <div class="mui-textfield mui-textfield--float-label">
-    <input id="loginUserName" ng-model="userName" type="text">
+    <input id="loginUserName" ng-model="userName" type="text" maxlength="15">
     <label>UserName</label>
   </div>
    <div class="mui-textfield mui-textfield--float-label">
-    <input id="loginPassword" ng-model="password" type="password">
+    <input id="loginPassword" ng-model="password" type="password" maxlength="15">
     <label>Password</label>
   </div>
   <div class="mui-textfield mui-textfield--float-label">
-    <input id="loginPasswordConfirm" ng-model="passConf" type="password">
+    <input id="loginPasswordConfirm" ng-model="passConf" type="password" maxlength="15">
     <label>Confirm Password</label>
   </div>
   <button type="submit" class="mui-btn mui-btn--raised" ng-click="signup(userName,password,passConf)">Submit</button>
   <a href="/login"><button type="submit" class="mui-btn mui-btn--raised">Login</button></a>
 </form>
+<div id="mismatchSignUp"> Passwords don't match!</div>
+<div id="userNameTaken"> UserName Already Taken</div>
 </div>

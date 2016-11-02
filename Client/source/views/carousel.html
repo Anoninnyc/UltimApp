@@ -22,6 +22,7 @@
                 </select>
               </div>
             </form>
+            Select your level of expertise/interest/etc.
             <div id="slider-1">
               <div id="custom-handle" class="ui-slider-handle"></div>
             </div>
@@ -40,27 +41,15 @@
             <br/>
             <br/>
             <button type="button" id="firstBtn" class="btn btn-success btn-lg nextButton">Next</button>
-
           </div>
-
-
-
-
-
         </div>
-
       </div>
-
-
-
 
 
       <div class="item two">
         <div>Second
-
           <br/>
           <br/>
-
           <div class="selectArea" id="selectArea2">
             <form>
               <div class="mui-select">
@@ -72,22 +61,19 @@
                 </select>
               </div>
             </form>
+            Select your level of expertise/interest/etc.
             <div id="slider-2">
               <div id="custom-handle2" class="ui-slider-handle"></div>
             </div>
             <br/>
             <br/>
-
             <button type="button" id="secondBtn" class="btn btn-success btn-lg nextButton">Next</button>
-
           </div>
-
           <!-- HTML -->
-
         </div>
       </div>
 
-      <div class="item three" >
+      <div class="item three">
         <div>
           Third
           <br/>
@@ -103,24 +89,19 @@
                 </select>
               </div>
             </form>
+            Select your level of expertise/interest/etc.
             <div id="slider-3">
               <div id="custom-handle3" class="ui-slider-handle"></div>
             </div>
             <br/>
             <br/>
-
             <button type="button" id="thirdBtn" class="btn btn-success btn-lg nextButton">Next</button>
-
           </div>
-
-
-
         </div>
       </div>
 
       <div class="item four">
         <div>Final</div>
-
         <div class="selectArea" id="selectArea4">
           <form>
             <div class="mui-select">
@@ -132,6 +113,7 @@
               </select>
             </div>
           </form>
+          Select your level of expertise/interest/etc.
           <div id="slider-4">
             <div id="custom-handle4" class="ui-slider-handle"></div>
           </div>
@@ -139,7 +121,7 @@
 
 
 
-        <button id="submitProf" type="submit" class="mui-btn mui-btn--raised" ng-click="submitProfile()"> Submit Info</button>
+        <button id="submitProf" type="submit" class="mui-btn mui-btn--raised"  ng-click="submitProfile(); redoProfile()"> Submit Info</button>
       </div>
     </div>
     <ol class="carousel-indicators">
@@ -152,7 +134,6 @@
 </div>
 
 <script>
-
   $(document).ready(function() {
     //activate slider
 
@@ -218,12 +199,8 @@
     });
 
 
-
-
-    // Activate Carousel
     $("#myCarousel").carousel("pause");
 
-    // Click on the button to start sliding
     $("#myBtn").click(function() {
       $("#myCarousel").carousel("next");
     });
@@ -233,12 +210,10 @@
     });
 
 
-    // Click on the button to stop sliding
     $("#myBtn2").click(function() {
       $("#myCarousel").carousel("prev");
     });
 
-    // Enable Carousel Indicators
     $(".item1").click(function() {
       $("#myCarousel").carousel(0);
       $("#myCarousel").carousel("pause");

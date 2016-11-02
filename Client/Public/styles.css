@@ -13,6 +13,7 @@ Landing Page
     position: fixed;
     top: 50px;
     background-image: url("http://bit.ly/2epTmSs");
+    text-align: center;
   }
   
   section#benefits {
@@ -46,7 +47,6 @@ Landing Page
   div#Benefit4 {
     width: 300px;
     padding: 15px;
-    border: 1px solid black;
     height: 300px;
     text-align: center;
   }
@@ -112,6 +112,30 @@ Landing Page
     width: 150px;
   }
 
+  .side:hover {
+    cursor: pointer;
+}
+
+/*//////////////////
+//////////////
+LogIn
+///////////
+////////////////////*/
+
+
+
+#signUpView,#logInView {
+    text-align: center;
+    width: 500px;
+    margin: auto;
+    top: 250px;
+    position: relative;
+}
+
+#badLogin, #mismatchSignUp, #userNameTaken {
+  display: none;
+  color: red;
+}
 
 /*//////////////////
 //////////////
@@ -189,9 +213,9 @@ Carousel
     margin: auto;
     top: 50px;
 }
-div#slider-1 {
+/*div#slider-1 {
     width: 300px;
-}
+}*/
 
 
 input[type="radio"] {

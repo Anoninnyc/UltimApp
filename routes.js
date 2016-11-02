@@ -83,9 +83,10 @@ const userProfile = (req, res) =>{
 
     User.update({userName: req.body.userName},updateData, function(err,affected) {
       console.log('affected rows %d', affected);
-      if (!err){
-        res.send("Updated!")
-      }
+        User.findOne({userName: req.body.userName}).then(user=>{
+          console.log("this is the user", user);
+          res.send({"userName":user.userName, "preferences":user.preferences});
+        })
     });
 
 

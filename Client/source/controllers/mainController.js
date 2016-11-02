@@ -1,7 +1,8 @@
 myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService) {
 
-  $scope.authService=authService;
-  
+  $scope.authService = authService;
+  $scope.profileService = profileService;
+
   $scope.login = () => {
     authService.login($scope, $scope.userNameLogin, $scope.passwordLogin);
   };
@@ -10,17 +11,20 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
     authService.signup($scope, $scope.userName, $scope.password, $scope.passConf);
   };
 
-  $scope.logout = () =>{
+  $scope.logout = () => {
     authService.logout($scope);
   }
 
-  $scope.submitProfile= () =>{
-    profileService.submitProfile();
+  $scope.submitProfile= () => {
+    profileService.submitProfile($scope);
   };
 
   $scope.checkPref=()=>{
-    console.log("this is what scope is giving", authService.check("preferences"))
     return authService.check("preferences");
   };
+
+  $scope.redoProfile =() =>{
+    profileService.redoProfile();
+  }
 
 });

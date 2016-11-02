@@ -2,15 +2,16 @@
 <form>
   <legend>Login!</legend>
   <div class="mui-textfield mui-textfield--float-label">
-    <input id="loginUserName" ng-model="userNameLogin" type="text">
+    <input id="loginUserName" ng-init="userNameLogin=''" ng-model="userNameLogin" type="text" maxlength="15">
     <label>UserName</label>
   </div>
    <div class="mui-textfield mui-textfield--float-label">
-    <input id="loginPassword" ng-model="passwordLogin" type="password">
+    <input id="loginPassword" ng-init="passwordLogin=''" ng-model="passwordLogin" type="password" maxlength="15">
     <label>Password</label>
   </div>
 
   <button type="submit" class="mui-btn mui-btn--raised" ng-click="login(userNameLogin,passwordLogin)">Submit</button>
   <a href="/signup"><button type="submit" class="mui-btn mui-btn--raised" >Signup</button></a>
 </form>
+<div id="badLogin">Bad Login!</div>
 </div>

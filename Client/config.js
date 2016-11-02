@@ -7,8 +7,6 @@ myApp.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
   state('home', {
     url: '/',
     templateUrl: '/source/views/landingPage.html'
-    // ,
-    // controller: 'myCtrl'
   }).
   state('login', {
     url: '/login',
@@ -22,22 +20,15 @@ myApp.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
   }).
   state('inside', {
       url: '/inside',
-      // controller: 'myCtrl',
       views: {
         '': {
           templateUrl: '/source/views/home.html'
-          // ,
-          // controller: 'myCtrl'
         },
         'navBar@inside': {
           templateUrl: '/source/views/insideNav.html'
-          // ,
-          // controller: 'myCtrl'
         },
         'homeContent@inside': {
           templateUrl: '/source/views/homeContent.html'
-          // ,
-          // controller: 'myCtrl'
         }
       }
     }).
@@ -47,13 +38,9 @@ myApp.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
       views: {
         '': {
           templateUrl: '/source/views/profile.html'
-          // ,
-          // controller: 'myCtrl'
         },
         'navBar@profile': {
           templateUrl: '/source/views/insideNav.html'
-          // ,
-          // controller: 'myCtrl'
         },
         'profContent@': {
           templateUrl: '/source/views/profContent.html'

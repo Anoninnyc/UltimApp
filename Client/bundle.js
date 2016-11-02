@@ -57,8 +57,9 @@
 
 	myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService) {
 
-	  $scope.authService=authService;
-	  
+	  $scope.authService = authService;
+	  $scope.profileService = profileService;
+
 	  $scope.login = () => {
 	    authService.login($scope, $scope.userNameLogin, $scope.passwordLogin);
 	  };
@@ -67,18 +68,21 @@
 	    authService.signup($scope, $scope.userName, $scope.password, $scope.passConf);
 	  };
 
-	  $scope.logout = () =>{
+	  $scope.logout = () => {
 	    authService.logout($scope);
 	  }
 
-	  $scope.submitProfile= () =>{
-	    profileService.submitProfile();
+	  $scope.submitProfile= () => {
+	    profileService.submitProfile($scope);
 	  };
 
 	  $scope.checkPref=()=>{
-	    console.log("this is what scope is giving", authService.check("preferences"))
 	    return authService.check("preferences");
 	  };
+
+	  $scope.redoProfile =() =>{
+	    profileService.redoProfile();
+	  }
 
 	});
 
@@ -95,6 +99,10 @@
 	      console.log("Pass length must be right")
 	    } else if (pass !== passConf) {
 	      console.log("They don't match!")
+	      $("#mismatchSignUp").css("display","inline");
+	      $("#userNameTaken").css("display","none");
+
+
 	    } else {
 	      $.post("/signup", {
 	        userName,
@@ -108,6 +116,8 @@
 	          scope.$apply();
 	        } else {
 	          console.log("Username taken!!")
+	          $("#userNameTaken").css("display","inline");
+	          $("#mismatchSignUp").css("display","none");
 	        }
 
 	      })
@@ -132,6 +142,7 @@
 	          scope.$apply();          
 
 	        } else {
+	          $("#badLogin").css("display","inline");
 	          console.log("Bad login!!")
 	        }
 
@@ -158,9 +169,11 @@
 
 	})
 
-	myApp.service('profileService', function(authService) {
-	  this.submitProfile= ()=>{
+	myApp.service('profileService', function(authService, $window) {
 
+	  this.redo = false; 
+
+	  this.submitProfile= scope =>{
 	  const dropDowns = [$("#firstDD :selected").text(),$("#secondDD :selected").text(),$("#thirdDD :selected").text(),$("#fourthDD :selected").text()];
 	  const handles = [$("#custom-handle").text(),$("#custom-handle2").text(),$("#custom-handle3").text(),$("#custom-handle4").text()];
 	  const radio1 = $("#radio01")[0].checked;
@@ -170,9 +183,19 @@
 	  const allHandled = handles.indexOf("0")<0;
 	  console.log(dropDowns, handles, radio1,radio2, oneChecked, AllDroppedDown, allHandled);
 	  $.post('/profile', {preferences:{dropDowns, handles, radio1,radio2, oneChecked, AllDroppedDown, allHandled}, userName:authService.check("userName")}).then((res,err)=>{
-	    console.log(res, err);
+	    console.log("this is res", JSON.stringify(res),err)
+	    if (err!=="Success"){
+	      localStorage.userInfo=JSON.stringify(res);
+	      scope.$apply();
+	    }
 	  });
+	  }
 
+	  this.redoProfile = () =>{
+	    console.log("runningREDO!", JSON.parse($window.localStorage.getItem("userInfo"))["preferences"]);
+	    if (JSON.parse($window.localStorage.getItem("userInfo"))["preferences"]){
+	    this.redo = !this.redo; 
+	    }
 	  }
 
 	});

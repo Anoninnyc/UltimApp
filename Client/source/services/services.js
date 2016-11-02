@@ -4,7 +4,9 @@ myApp.service('authService', function($location, $window) {
   this.signup = (scope, userName, pass, passConf) => {
     console.log(scope, userName, pass, passConf);
     if (pass.length < 1 || pass.length > 25) {
-      console.log("Pass length must be right")
+      console.log("Pass length must be right");
+
+      
     } else if (pass !== passConf) {
       console.log("They don't match!")
       $("#mismatchSignUp").css("display","inline");
@@ -100,8 +102,9 @@ myApp.service('profileService', function(authService, $window) {
 }
 
   this.redoProfile = () =>{
-    console.log("runningREDO!", JSON.parse($window.localStorage.getItem("userInfo"))["preferences"]);
-    if (JSON.parse($window.localStorage.getItem("userInfo"))["preferences"]){
+
+    console.log("runningREDO!", authService.check("preferences"));
+    if (authService.check("preferences")){
     this.redo = !this.redo; 
     }
   }

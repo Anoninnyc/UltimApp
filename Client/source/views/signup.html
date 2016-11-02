@@ -2,15 +2,15 @@
 <form>
   <legend>SignUp!</legend>
   <div class="mui-textfield mui-textfield--float-label">
-    <input id="loginUserName" ng-model="userName" type="text" maxlength="15">
+    <input id="loginUserName" ng-init='userName=""' ng-model="userName" type="text" maxlength="15">
     <label>UserName</label>
   </div>
    <div class="mui-textfield mui-textfield--float-label">
-    <input id="loginPassword" ng-model="password" type="password" maxlength="15">
+    <input id="loginPassword" ng-init='password=""' ng-model="password" type="password" maxlength="15">
     <label>Password</label>
   </div>
   <div class="mui-textfield mui-textfield--float-label">
-    <input id="loginPasswordConfirm" ng-model="passConf" type="password" maxlength="15">
+    <input id="loginPasswordConfirm" ng-init='passConf=""' ng-model="passConf" type="password" maxlength="15">
     <label>Confirm Password</label>
   </div>
   <button type="submit" class="mui-btn mui-btn--raised" ng-click="signup(userName,password,passConf)">Submit</button>

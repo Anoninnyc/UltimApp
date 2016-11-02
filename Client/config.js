@@ -52,9 +52,6 @@ myApp.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
     })
 
 
-
-
-
   $locationProvider.html5Mode({
     enabled: true,
     requireBase: false

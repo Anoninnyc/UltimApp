@@ -18,7 +18,6 @@
     <section id="fixedLanding">
       <h1 id="header">Info</h1>
       <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec gravida cursus ipsum quis pretium.</h2>
-      
     </section>
 
     <section id="benefits">
@@ -26,16 +25,16 @@
         <div id="Benefit1">
         <div class="card-container">
           <div class="card">
-            <div class="side"><img src="http://bit.ly/2eySlHU" alt="Jimmy Eat World"></div>
-            <div class="side back">Benefit1</div>
+            <div class="side"><img src="http://bit.ly/2eySlHU"></div>
+            <h2 class="side back">Benefit1</h2>
           </div>
         </div>
         </div>
         <div id="Benefit2">
         <div class="card-container">
           <div class="card">
-            <div class="side"><img src="http://bit.ly/2eySlHU" alt="Jimmy Eat World"></div>
-            <div class="side back">Benefit2</div>
+            <div class="side"><img src="http://bit.ly/2eySlHU"></div>
+            <h2 class="side back">Benefit2</h2>
           </div>
         </div>
       </div>
@@ -44,24 +43,34 @@
         <div id="Benefit3">
         <div class="card-container">
           <div class="card">
-            <div class="side"><img src="http://bit.ly/2eySlHU" alt="Jimmy Eat World"></div>
-            <div class="side back">Benefit3</div>
+            <div class="side"><img src="http://bit.ly/2eySlHU"></div>
+            <h2 class="side back">Benefit3</h2>
           </div>
         </div>
         </div>
         <div id="Benefit4">
         <div class="card-container">
           <div class="card">
-            <div class="side"><img src="http://bit.ly/2eySlHU" alt="Jimmy Eat World"></div>
-            <div class="side back">Benefit4</div>
+            <div class="side"><img src="http://bit.ly/2eySlHU"></div>
+            <h2 class="side back">Benefit4</h2>
           </div>
         </div>
       </div>
       </div>
-      <footer>
+      <footer class="footer">
         <div class="mui-container mui--text-center">
           Made with ♥ by KMA
         </div>
       </footer>
 
     </section>
+
+<script>
+    $(window).scroll(function(){            
+            var bottom_of_object = $('.footer').offset().top + $('.footer').outerHeight();
+            var bottom_of_window = $(window).scrollTop() + $(window).height();
+            if( bottom_of_window > 1050 ){
+                $('.footer').animate({'opacity':'1'}, 500);
+            }
+        }); 
+</script>

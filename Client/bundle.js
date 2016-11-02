@@ -96,7 +96,9 @@
 	  this.signup = (scope, userName, pass, passConf) => {
 	    console.log(scope, userName, pass, passConf);
 	    if (pass.length < 1 || pass.length > 25) {
-	      console.log("Pass length must be right")
+	      console.log("Pass length must be right");
+
+	      
 	    } else if (pass !== passConf) {
 	      console.log("They don't match!")
 	      $("#mismatchSignUp").css("display","inline");
@@ -189,11 +191,12 @@
 	      scope.$apply();
 	    }
 	  });
-	  }
+	}
 
 	  this.redoProfile = () =>{
-	    console.log("runningREDO!", JSON.parse($window.localStorage.getItem("userInfo"))["preferences"]);
-	    if (JSON.parse($window.localStorage.getItem("userInfo"))["preferences"]){
+
+	    console.log("runningREDO!", authService.check("preferences"));
+	    if (authService.check("preferences")){
 	    this.redo = !this.redo; 
 	    }
 	  }
@@ -213,8 +216,6 @@
 	  state('home', {
 	    url: '/',
 	    templateUrl: '/source/views/landingPage.html'
-	    // ,
-	    // controller: 'myCtrl'
 	  }).
 	  state('login', {
 	    url: '/login',
@@ -228,22 +229,15 @@
 	  }).
 	  state('inside', {
 	      url: '/inside',
-	      // controller: 'myCtrl',
 	      views: {
 	        '': {
 	          templateUrl: '/source/views/home.html'
-	          // ,
-	          // controller: 'myCtrl'
 	        },
 	        'navBar@inside': {
 	          templateUrl: '/source/views/insideNav.html'
-	          // ,
-	          // controller: 'myCtrl'
 	        },
 	        'homeContent@inside': {
 	          templateUrl: '/source/views/homeContent.html'
-	          // ,
-	          // controller: 'myCtrl'
 	        }
 	      }
 	    }).
@@ -253,13 +247,9 @@
 	      views: {
 	        '': {
 	          templateUrl: '/source/views/profile.html'
-	          // ,
-	          // controller: 'myCtrl'
 	        },
 	        'navBar@profile': {
 	          templateUrl: '/source/views/insideNav.html'
-	          // ,
-	          // controller: 'myCtrl'
 	        },
 	        'profContent@': {
 	          templateUrl: '/source/views/profContent.html'
@@ -269,9 +259,6 @@
 	        }
 	      }
 	    })
-
-
-
 
 
 	  $locationProvider.html5Mode({

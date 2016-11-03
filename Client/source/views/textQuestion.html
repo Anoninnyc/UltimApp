@@ -1,0 +1,12 @@
+<div ui-view="navBar" />
+<h1>This should be tq</h1>
+
+
+<div class="form-group">
+  <label for="comment">Your question:</label>
+  <textarea class="form-control" rows="5" id="comment" maxlength="1000"></textarea>
+</div>
+
+ <button type="submit" class="mui-btn mui-btn--raised" ng-click="submitTextQuestion()">Submit</button>
+
+ <button type="submit" class="mui-btn mui-btn--raised" ui-sref="videoQuestion">Send video instead</button>

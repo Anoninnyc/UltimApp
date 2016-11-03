@@ -49,7 +49,47 @@ myApp.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
           templateUrl: '/source/views/carousel.html'
         }
       }
+    }).
+    state('broadcast', {
+      url: '/broadcast',
+      controller: 'myCtrl',
+      views: {
+        '': {
+          templateUrl: '/source/views/broadcast.html'
+        },
+        'navBar@broadcast': {
+          templateUrl: '/source/views/insideNav.html'
+        },
+        'question@broadcast' : {
+          templateUrl: '/source/views/question.html'
+        }
+      }
+    }).
+    state('textQuestion',{
+      url:'/textQuestion',
+      controller: 'myCtrl',
+      views:{
+        "":{
+          templateUrl: '/source/views/textQuestion.html'
+        },
+        'navBar@textQuestion': {
+          templateUrl: '/source/views/insideNav.html'
+        },
+      }
+    }).
+    state('videoQuestion',{
+      url:'/videoQuestion',
+      controller: 'myCtrl',
+      views:{
+        "":{
+          templateUrl: '/source/views/videoQuestion.html'
+        },
+        'navBar@videoQuestion': {
+          templateUrl: '/source/views/insideNav.html'
+        },
+      }
     })
+
 
 
   $locationProvider.html5Mode({

@@ -1,7 +1,8 @@
-myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService) {
+myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService,sendQuestion) {
 
   $scope.authService = authService;
   $scope.profileService = profileService;
+  $scope.sendQuestion= sendQuestion;
 
   $scope.login = () => {
     authService.login($scope, $scope.userNameLogin, $scope.passwordLogin);
@@ -25,6 +26,10 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
 
   $scope.redoProfile =() =>{
     profileService.redoProfile();
+  }
+
+  $scope.submitTextQuestion =() =>{
+    sendQuestion.submitTextQuestion();
   }
 
 });

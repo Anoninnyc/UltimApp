@@ -1,5 +1,6 @@
 var path = require('path');
 var User = require('./db/models').User;
+const Question = require('./db/models').Question;
 var bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
 
@@ -26,6 +27,8 @@ const login = (req, res) => {
         console.log("finaluser", user);
         if (user !== null) {
           req.mySession.userName = req.body.userName;
+          req.mySession.id= user._id; 
+
           console.log(user);
           res.send({"userName":user.userName, "preferences":user.preferences});
         } else {
@@ -46,8 +49,9 @@ const signup = (req, res) => {
     salt,
   }, (err, newUser, created) => {
     if (created) {
+      console.log("NUC!!!", newUser, created)
       req.mySession.userName = req.body.userName;
-
+      req.mySession.id = newUser._id;
       res.send({"userName":req.body.userName});
     } else {
       res.send("Already Exists");
@@ -58,7 +62,7 @@ const signup = (req, res) => {
 };
 
 const wildcard = (req, res) => {
-  console.log("req.url", req.url, req.mySession);
+  console.log("req.url && mysession", req.url, req.mySession);
   res.status(200).sendFile(pathToStaticDir);
 };
 
@@ -88,10 +92,25 @@ const userProfile = (req, res) =>{
           res.send({"userName":user.userName, "preferences":user.preferences});
         })
     });
+}
 
 
+const addQuestion = (req,res) => {
+  console.log("req.body.question", req.body);
+
+  if (req.body.type==="text") {
+ 
+    const question = new Question({user:req.mySession.id, type:"text",text:req.body.question, video:"null"});
+
+    question.save((err,entry) => {
+      console.log("err,entry",err,entry);
+      res.send("Entered!");
+    });
+  }
 
 }
+
+
 
 module.exports = {
   login,
@@ -99,6 +118,7 @@ module.exports = {
   listen,
   signup,
   logout,
-  userProfile
+  userProfile,
+  addQuestion,
 };
 

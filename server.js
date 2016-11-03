@@ -60,7 +60,8 @@ app.post("/signup", routes.signup);
 app.get('/', routes.wildcard);
 
 app.post('/logout', routes.logout);
-app.post('/profile', routes.userProfile)
+app.post('/profile', routes.userProfile);
+app.post('/addQuestion', routes.addQuestion);
 
 app.get('*', auth, routes.wildcard);
 app.listen(3000, routes.listen);

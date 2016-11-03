@@ -110,3 +110,25 @@ myApp.service('profileService', function(authService, $window) {
   }
 
 });
+
+
+myApp.service('sendQuestion', function() {
+
+
+  this.submitTextQuestion = () =>{
+    const question= $("#comment").val();
+
+    if (!question.length){
+      console.log("enter a question");
+    } else {
+      $.post("/addQuestion",{question:question, type:"text"}, (res,err) =>{
+        console.log("RESERR**********",res,err,"**************") 
+      })
+    }
+
+    console.log("running submit question");
+   
+  }
+
+
+});

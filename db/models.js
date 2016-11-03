@@ -9,8 +9,17 @@ var userSchema = new Schema({
     preferences: Object,
 });
 
+var questionSchema = new Schema({
+	user: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+	type:String,
+	text:String,
+	video:String,
+})
+
 userSchema.plugin(findOrCreate);
+questionSchema.plugin(findOrCreate);
 
 module.exports = {
-	User:mongoose.model('User', userSchema)
+	User:mongoose.model('User', userSchema),
+	Question:mongoose.model('Question', questionSchema),
 };

@@ -55,10 +55,11 @@
 /* 1 */
 /***/ function(module, exports) {
 
-	myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService) {
+	myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService,sendQuestion) {
 
 	  $scope.authService = authService;
 	  $scope.profileService = profileService;
+	  $scope.sendQuestion= sendQuestion;
 
 	  $scope.login = () => {
 	    authService.login($scope, $scope.userNameLogin, $scope.passwordLogin);
@@ -82,6 +83,10 @@
 
 	  $scope.redoProfile =() =>{
 	    profileService.redoProfile();
+	  }
+
+	  $scope.submitTextQuestion =() =>{
+	    sendQuestion.submitTextQuestion();
 	  }
 
 	});
@@ -203,6 +208,28 @@
 
 	});
 
+
+	myApp.service('sendQuestion', function() {
+
+
+	  this.submitTextQuestion = () =>{
+	    const question= $("#comment").val();
+
+	    if (!question.length){
+	      console.log("enter a question");
+	    } else {
+	      $.post("/addQuestion",{question:question, type:"text"}, (res,err) =>{
+	        console.log("RESERR**********",res,err,"**************") 
+	      })
+	    }
+
+	    console.log("running submit question");
+	   
+	  }
+
+
+	});
+
 /***/ },
 /* 3 */
 /***/ function(module, exports) {
@@ -258,7 +285,47 @@
 	          templateUrl: '/source/views/carousel.html'
 	        }
 	      }
+	    }).
+	    state('broadcast', {
+	      url: '/broadcast',
+	      controller: 'myCtrl',
+	      views: {
+	        '': {
+	          templateUrl: '/source/views/broadcast.html'
+	        },
+	        'navBar@broadcast': {
+	          templateUrl: '/source/views/insideNav.html'
+	        },
+	        'question@broadcast' : {
+	          templateUrl: '/source/views/question.html'
+	        }
+	      }
+	    }).
+	    state('textQuestion',{
+	      url:'/textQuestion',
+	      controller: 'myCtrl',
+	      views:{
+	        "":{
+	          templateUrl: '/source/views/textQuestion.html'
+	        },
+	        'navBar@textQuestion': {
+	          templateUrl: '/source/views/insideNav.html'
+	        },
+	      }
+	    }).
+	    state('videoQuestion',{
+	      url:'/videoQuestion',
+	      controller: 'myCtrl',
+	      views:{
+	        "":{
+	          templateUrl: '/source/views/videoQuestion.html'
+	        },
+	        'navBar@videoQuestion': {
+	          templateUrl: '/source/views/insideNav.html'
+	        },
+	      }
 	    })
+
 
 
 	  $locationProvider.html5Mode({

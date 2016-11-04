@@ -1,17 +1,18 @@
 <div class="container">
 
-  <button type="button" id="myBtn2" class="btn btn-success btn-lg" id="myBtn">Prev</button>
 
   <div id="myCarousel" class="carousel slide" data-interval="500">
 
     <!-- Wrapper for slides -->
     <div class="carousel-inner" role="listbox">
       <div class="item one active">
-        <div>First
+        <div>
           <br />
           <br />
 
+
           <div class="selectArea" id="selectArea1">
+
             <form>
               <div class="mui-select">
                 <select id="firstDD">
@@ -36,7 +37,7 @@
 
             <div class="rad">
               <input type="radio" id="radio02" name="radio" />
-              <label for="radio02"><span></span>Optionn 2</label>
+              <label for="radio02"><span></span>Option 2</label>
             </div>
             <br/>
             <br/>
@@ -47,9 +48,11 @@
 
 
       <div class="item two">
-        <div>Second
+        <div>
           <br/>
           <br/>
+            <button type="button" id="back2" class="btn btn-success btn-lg" id="myBtn">Prev</button>
+
           <div class="selectArea" id="selectArea2">
             <form>
               <div class="mui-select">
@@ -75,9 +78,10 @@
 
       <div class="item three">
         <div>
-          Third
           <br/>
           <br/>
+            <button type="button" id="back3" class="btn btn-success btn-lg" id="myBtn">Prev</button>
+
           <div class="selectArea" id="selectArea3">
             <form>
               <div class="mui-select">
@@ -101,7 +105,10 @@
       </div>
 
       <div class="item four">
-        <div>Final</div>
+      <br/>
+      <br/>
+      <button type="button" id="back4" class="btn btn-success btn-lg" id="myBtn">Prev</button>
+
         <div class="selectArea" id="selectArea4">
           <form>
             <div class="mui-select">
@@ -135,7 +142,14 @@
 
 <script>
   $(document).ready(function() {
+    $(".item1,.item2,.item3,.item4").hover(function(){
+      $(".item").css({"border-radius":"25%"})
+    })
+
+
+
     //activate slider
+
 
     $(function() {
       var handle = $("#custom-handle");
@@ -210,7 +224,7 @@
     });
 
 
-    $("#myBtn2").click(function() {
+    $("#back2,#back3,#back4").click(function() {
       $("#myCarousel").carousel("prev");
     });
 

@@ -1,21 +1,23 @@
+<div id="signUpBody">
 <div id="signUpView">
 <form>
   <legend>SignUp!</legend>
   <div class="mui-textfield mui-textfield--float-label">
-    <input id="loginUserName" ng-init='userName=""' ng-model="userName" type="text" maxlength="15">
+    <input id="loginUserName" ng-init='userName=""' ng-model="userName" type="text" maxlength="15" required>
     <label>UserName</label>
   </div>
    <div class="mui-textfield mui-textfield--float-label">
-    <input id="loginPassword" ng-init='password=""' ng-model="password" type="password" maxlength="15">
+    <input id="loginPassword" ng-init='password=""' ng-model="password" type="password" maxlength="15" required>
     <label>Password</label>
   </div>
   <div class="mui-textfield mui-textfield--float-label">
-    <input id="loginPasswordConfirm" ng-init='passConf=""' ng-model="passConf" type="password" maxlength="15">
+    <input id="loginPasswordConfirm" ng-init='passConf=""' ng-model="passConf" type="password" maxlength="15" required>
     <label>Confirm Password</label>
   </div>
   <button type="submit" class="mui-btn mui-btn--raised" ng-click="signup(userName,password,passConf)">Submit</button>
-  <a href="/login"><button type="submit" class="mui-btn mui-btn--raised">Login</button></a>
+  <a href="/login"><button type="submit" class="mui-btn mui-btn--raised">Login Instead</button></a>
 </form>
 <div id="mismatchSignUp"> Passwords don't match!</div>
 <div id="userNameTaken"> UserName Already Taken</div>
 </div>
+<div id="signUpBody">

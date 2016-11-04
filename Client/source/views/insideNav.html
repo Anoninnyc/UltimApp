@@ -2,32 +2,30 @@
   <div class="mui-container">
     <table width="100%">
       <tr class="mui--appbar-height">
-        <td class="mui--text-title" ui-sref="inside">Hi, {{authService.check("userName")}}</td>
+        <td id="userName" class="mui--text-title"><a ui-sref="inside">Home</a></td>
         <td align="right">
         <form>
           <mui-textfield type="text" label="Email address" floating></mui-textfield>
           </form>
           <ul class="mui-list--inline mui--text-body2">
+          <li>Hi, {{authService.check("userName")}}!</li>
           <li><div class="mui-textfield mui-textfield--float-label">
     <input id="loginUserName" type="text">
     <label>Search!</label>
   </div></li>
-            <li><a ui-sref="broadcast">Broadcast</a></li>
             <li ng-click="checkPref()"><a>Discover </a></li>
             <li><a ui-sref="profile">My Profile</a></li>
-            <li><a ui-sref="home" ng-click="logout()">Logout</a></li>
             <div class="mui-dropdown">
               <button class="mui-btn mui-btn--primary" data-mui-toggle="dropdown">
-                More!
+                Ask!
                 <span class="mui-caret"></span>
               </button>
               <ul class="mui-dropdown__menu">
-                <li><a href="#">Option 1</a></li>
-                <li><a href="#">Option 2</a></li>
-                <li><a href="#">Option 3</a></li>
-                <li><a href="#">Option 4</a></li>
+                <li><a ui-sref="textQuestion">Write a ?</a></li>
+                <li><a ui-sref="videoQuestion">Record a ?</a></li>
               </ul>
             </div>
+             <li><a ui-sref="home" ng-click="logout()">Logout</a></li>
           </ul>
         </td>
       </tr>

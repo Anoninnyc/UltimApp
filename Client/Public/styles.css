@@ -5,138 +5,145 @@ Landing Page
 ///////////
 ////////////////////*/
 
-  section#fixedLanding {
-    background-color: blue;
-    height: 350px;
-    width: 100%;
-    z-index: -1;
-    position: fixed;
-    top: 50px;
-    background-image: url("http://bit.ly/2epTmSs");
-    text-align: center;
-  }
-  
-  section#benefits {
-    height: 800px;
-    width: 100%;
-    z-index: 1;
-    position: absolute;
-    top: 300px;
-    text-align: center;
-    background-image: url("http://bit.ly/2dEDFYv");
-    background-size: 1895px 1700px;
-  }
-  
-  header {
-    background-image: url("https://bit.ly/2eMlJr0");
-    position: fixed;
-    z-index: 2;
-    background-color: pink;
-    width: 100%;
-    height: 60px;
-  }
-  
-  body {
-    height: 100%;
-    margin: 0;
-  }
-  
-  div#Benefit1,
-  div#Benefit2,
-  div#Benefit3,
-  div#Benefit4 {
-    width: 300px;
-    padding: 15px;
-    height: 300px;
-    text-align: center;
-  }
-  
-  div#leftBenes,
-  div#rightBenes {
-    display: inline-block;
-  }
-  
-  footer {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 100px;
-    width: 100%;
-    background-image: url(http://bit.ly/2dRnKEH);
-    background-size: 2000px;
-    opacity: 0;
-  }
-  
-  .landingImg {
-    position: relative;
-    width: 200px;
-  }
-  
-  .card-container {
-    height: 150px;
-    perspective: 600;
-    position: relative;
-    width: 150px;
-  }
-  
-  .card {
-    height: 100%;
-    position: absolute;
-    transform-style: preserve-3d;
-    transition: all 0.5s ease-in-out;
-    width: 100%;
-  }
-  
-  .card:hover {
-    transform: rotateY(180deg);
-  }
-  
-  .card .side {
-    backface-visibility: hidden;
-    height: 100%;
-    position: absolute;
-    width: 100%;
-  }
-  
-  .card .back {
-    transform: rotateY(180deg);
-  }
-  
-  .card-container {
-    text-align: center;
-    position: relative;
-    left: 60px;
-    top: 50px;
-  }
-  
-  .side>img {
-    width: 150px;
-  }
-
-  .side:hover {
-    cursor: pointer;
+section#fixedLanding {
+  background-color: blue;
+  height: 350px;
+  width: 100%;
+  z-index: -1;
+  position: fixed;
+  top: 50px;
+  background-image: url("http://bit.ly/2epTmSs");
+  text-align: center;
 }
+
+section#benefits {
+  height: 800px;
+  width: 100%;
+  z-index: 1;
+  position: absolute;
+  top: 300px;
+  text-align: center;
+  background-image: url("http://bit.ly/2dEDFYv");
+  background-size: 1895px 1700px;
+}
+
+header {
+  background-image: url("https://bit.ly/2eMlJr0");
+  position: fixed;
+  z-index: 2;
+  background-color: pink;
+  width: 100%;
+  height: 60px;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+}
+
+div#Benefit1,
+div#Benefit2,
+div#Benefit3,
+div#Benefit4 {
+  width: 300px;
+  padding: 15px;
+  height: 300px;
+  text-align: center;
+}
+
+div#leftBenes,
+div#rightBenes {
+  display: inline-block;
+}
+
+footer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 100px;
+  width: 100%;
+  background-image: url(http://bit.ly/2dRnKEH);
+  background-size: 2000px;
+  opacity: 0;
+}
+
+.landingImg {
+  position: relative;
+  width: 200px;
+}
+
+.card-container {
+  height: 150px;
+  perspective: 600;
+  position: relative;
+  width: 150px;
+}
+
+.card {
+  height: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+}
+
+.card:hover {
+  transform: rotateY(180deg);
+}
+
+.card .side {
+  backface-visibility: hidden;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.card .back {
+  transform: rotateY(180deg);
+}
+
+.card-container {
+  text-align: center;
+  position: relative;
+  left: 60px;
+  top: 50px;
+}
+
+.side>img {
+  width: 150px;
+}
+
+.side:hover {
+  cursor: pointer;
+}
+
 
 /*//////////////////
 //////////////
-LogIn
+Auth
 ///////////
 ////////////////////*/
 
-
-
-#signUpView,#logInView {
-    text-align: center;
-    width: 500px;
-    margin: auto;
-    top: 250px;
-    position: relative;
+#signUpView,
+#logInView {
+  text-align: center;
+  width: 500px;
+  margin: auto;
+  top: 30vh;
+  position: relative;
 }
 
-#badLogin, #mismatchSignUp, #userNameTaken {
+#badLogin,
+#mismatchSignUp,
+#userNameTaken {
   display: none;
   color: red;
 }
+#logInBody, #signUpBody {
+  background-image: url(http://bit.ly/2epTmSs);
+  height: 100vh;
+}
+
 
 /*//////////////////
 //////////////
@@ -159,6 +166,7 @@ section#userFeed {
   margin: auto;
 }
 
+
 /*//////////////////
 //////////////
 Carousel
@@ -166,113 +174,113 @@ Carousel
 ///////////
 ////////////////////*/
 
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+  width: 70%;
+  margin: auto;
+}
 
-
-  .carousel-inner > .item > img,
-  .carousel-inner > .item > a > img {
-      width: 70%;
-      margin: auto;
-  }
-
-    .carousel-indicators li {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    /* margin: 1px; */
-    /* text-indent: -999px; */
-    cursor: pointer;
-    background-color: #000\9;
-    /* background-color: rgba(0,0,0,0); */
-    border: 1px solid #fff;
-    border-radius: 10px;
-    /* color: black; */
-    background-color: black;
-    top: 50%;
-    position: relative;
+.carousel-indicators li {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  /* margin: 1px; */
+  /* text-indent: -999px; */
+  cursor: pointer;
+  background-color: #000\9;
+  /* background-color: rgba(0,0,0,0); */
+  border: 1px solid #fff;
+  border-radius: 10px;
+  /* color: black; */
+  background-color: black;
+  top: 50%;
+  position: relative;
 }
 
 .carousel-indicators {
-    position: relative;
-    bottom: 0px;
-    left: 50%;
-    z-index: 15;
-    width: 60%;
-    padding-left: 0;
-    margin-left: -30%;
-    text-align: center;
-    list-style: none;
-}
-.item {
-    height: 500px;
-    background-color: red;
+  position: relative;
+  bottom: 0px;
+  left: 50%;
+  z-index: 15;
+  width: 60%;
+  padding-left: 0;
+  margin-left: -30%;
+  text-align: center;
+  list-style: none;
 }
 
+.item {
+  height: 500px;
+  background-color: lightblue;
+}
 
 .selectArea {
-    width: 40%;
-    position: relative;
-    margin: auto;
-    top: 50px;
+  width: 40%;
+  position: relative;
+  margin: auto;
+  top: 50px;
 }
+
+
 /*div#slider-1 {
     width: 300px;
 }*/
 
-
 input[type="radio"] {
-    display:none;
+  display: none;
 }
+
 input[type="radio"] + label {
-    color: #292321;
-    font-family:Arial, sans-serif;
-    font-size:14px;
-}
-input[type="radio"] + label span {
-    display:inline-block;
-    width:19px;
-    height:19px;
-    margin:-1px 4px 0 0;
-    vertical-align:middle;
-    cursor:pointer;
-    -moz-border-radius:  50%;
-    border-radius:  50%;
+  color: #292321;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
 }
 
 input[type="radio"] + label span {
-     background-color:#292321;
+  display: inline-block;
+  width: 19px;
+  height: 19px;
+  margin: -1px 4px 0 0;
+  vertical-align: middle;
+  cursor: pointer;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
 }
 
-input[type="radio"]:checked + label span{
-     background-color:#CC3300
+input[type="radio"] + label span {
+  background-color: #292321;
+}
+
+input[type="radio"]:checked + label span {
+  background-color: #CC3300
 }
 
 input[type="radio"] + label span,
 input[type="radio"]:checked + label span {
-  -webkit-transition:background-color 0.4s linear;
-  -o-transition:background-color 0.4s linear;
-  -moz-transition:background-color 0.4s linear;
-  transition:background-color 0.4s linear;
+  -webkit-transition: background-color 0.4s linear;
+  -o-transition: background-color 0.4s linear;
+  -moz-transition: background-color 0.4s linear;
+  transition: background-color 0.4s linear;
 }
 
 .rad {
-    position: relative;
-    display: inline;
-    margin-top: 10px;
-    margin-bottom: 10px;
+  position: relative;
+  display: inline;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .ui-slider .ui-slider-handle {
-    z-index: 0 !important;
-    
+  z-index: 0 !important;
 }
 
 div#custom-handle {
-    width: 30px;
-    text-align: center;
+  width: 30px;
+  text-align: center;
 }
 
-.item:hover{
-  border-radius:25% !important;
+.item:hover {
+  border-radius: 25% !important;
   transition: border-radius 1s !important;
 }
 
@@ -280,7 +288,9 @@ div#initProfile {
   text-align: center;
 }
 
-.four, .three, .two {
+.four,
+.three,
+.two {
   border-radius: 25%;
 }
 
@@ -290,61 +300,93 @@ button#submitProf {
 }
 
 
-
 /*//////////////////
 //////////////
 Broadcast
 ///////////
 ////////////////////*/
 
-
 #questionHeader {
-    /* margin: initial; */
-    text-align: center;
+  /* margin: initial; */
+  text-align: center;
 }
 
-h1#textQuestion, #centerOR, #videoQuestion {
-    display: inline;
+h1#textQuestion,
+#centerOR,
+#videoQuestion {
+  display: inline;
 }
 
 h1#centerOR {
-    left: 48%;
-    position: relative;
-    text-align: center;
-    float: left;
+  left: 48%;
+  position: relative;
+  text-align: center;
+  float: left;
 }
 
 h1#textQuestion {
-    float: right;
+  float: right;
 }
 
 h1#videoQuestion {
-    position: relative;
-    left: 20%;
-    float: left;
+  position: relative;
+  left: 20%;
+  float: left;
 }
+
 h1#videoQuestion:hover {
-    cursor: pointer;
-    color: red;
+  cursor: pointer;
+  color: red;
 }
 
 h1#textQuestion {
-    float: right;
-    right: 20%;
-    position: relative;
+  float: right;
+  right: 20%;
+  position: relative;
 }
 
 h1#textQuestion:hover {
-    cursor: pointer;
-    color: red;
+  cursor: pointer;
+  color: red;
 }
-
 
 #askQuestion>img {
-    width: 100px;
-    display: block;
-    margin: auto;
-    position: relative;
-    top: 140px;
-    right: 4%;
+  width: 100px;
+  display: block;
+  margin: auto;
+  position: relative;
+  top: 140px;
+  right: 4%;
 }
+
+#askQuestion{
+  top: 20vh;
+  position: relative;
+}
+
+div#textQuestionForms {
+  width: 500px;
+  text-align: center;
+  margin: auto;
+  position: relative;
+  top: 300px;
+}
+
+#myVideo {
+  background-color: #E8E884;
+}
+
+#myVideo {
+  margin: auto;
+}
+
+#videoQuestionMod {
+  text-align: center;
+}
+
+#videoQuestionMod {
+  text-align: center;
+  top: 30vh;
+  position: relative;
+}
+

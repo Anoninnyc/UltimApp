@@ -1,4 +1,77 @@
+<div ui-view="navBar" />
 
-<h1> Ask your video question here!</h1>
 
-<button type="submit" class="mui-btn mui-btn--raised" ui-sref="textQuestion">Send Text instead</button>
+<div id='videoQuestionMod'>
+  <h1> Ask your video question here!</h1>
+
+  <video id="myVideo" class="video-js vjs-default-skin"></video>
+  <button type="submit" class="mui-btn mui-btn--raised" ui-sref="textQuestion">Send Text instead</button>
+  <div>Upload</div>
+
+</div>
+
+<script>
+
+if (window.opened){
+	player.dispose();
+}
+
+	 player = videojs("myVideo",
+	{
+	    controls: true,
+	    width: 320,
+	    height: 240,
+	    plugins: {
+	        record: {
+	            audio: true,
+	            video: true,
+	            maxLength: 60 * 5,
+	            debug: true
+	        }
+	    }
+	});
+
+window.opened=true;
+// error handling
+player.on('deviceError', function()
+{
+    console.log('device error:', player.deviceErrorCode);
+});
+player.on('error', function(error)
+{
+    console.log('error:', error);
+});
+// user clicked the record button and started recording
+player.on('startRecord', function()
+{
+    console.log('started recording!');
+});
+// user completed recording and stream is available
+player.on('finishRecord', function()
+{
+    // the blob object contains the recorded data that
+    // can be downloaded by the user, stored on server etc.
+    console.log('finished recording: ', player.recordedData);
+    player.recorder.stopDevice();
+
+  var url = window.URL.createObjectURL(player.recordedData.video);
+  var a = document.createElement('a');
+  //a.style.display = 'none';
+  a.href = url;
+  a.download = 'testerrrr.webm';
+
+  $("#myVideo").append(a);
+  a.click();
+  setTimeout(function() {
+    //document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+    player.dispose();
+    window.opened=false;
+  }, 100);
+
+});
+
+
+
+</script>
+

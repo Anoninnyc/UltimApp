@@ -110,6 +110,10 @@ const addQuestion = (req,res) => {
 
 }
 
+const addVideo = (req,res) => {
+  console.log("req.body.", req.body);
+}
+
 
 
 module.exports = {
@@ -120,5 +124,6 @@ module.exports = {
   logout,
   userProfile,
   addQuestion,
+  addVideo,
 };
 

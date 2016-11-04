@@ -62,6 +62,8 @@ app.get('/', routes.wildcard);
 app.post('/logout', routes.logout);
 app.post('/profile', routes.userProfile);
 app.post('/addQuestion', routes.addQuestion);
+app.post('/postVideo', routes.addVideo);
+
 
 app.get('*', auth, routes.wildcard);
 app.listen(3000, routes.listen);

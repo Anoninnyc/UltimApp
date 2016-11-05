@@ -55,11 +55,12 @@
 /* 1 */
 /***/ function(module, exports) {
 
-	myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService,sendQuestion) {
-
+	myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService,sendQuestion, addTags) {
+	  $scope.tag="";
 	  $scope.authService = authService;
 	  $scope.profileService = profileService;
 	  $scope.sendQuestion= sendQuestion;
+	  $scope.addTags= addTags
 
 	  $scope.login = () => {
 	    authService.login($scope, $scope.userNameLogin, $scope.passwordLogin);
@@ -86,10 +87,15 @@
 	  }
 
 	  $scope.submitTextQuestion =() =>{
-	    sendQuestion.submitTextQuestion();
+	    sendQuestion.submitTextQuestion($scope);
 	  }
 
+	  $scope.addTag = (tag,scope) =>{
+	    console.log("this is the tag",tag);
+	    addTags.addTag(tag,$scope);
+	  }
 	});
+
 
 /***/ },
 /* 2 */
@@ -210,21 +216,50 @@
 
 
 	myApp.service('sendQuestion', function() {
+	  this.questionTags = [];
 
-
-	  this.submitTextQuestion = () =>{
+	  this.submitTextQuestion = (scope) =>{
 	    const question= $("#comment").val();
 
 	    if (!question.length){
 	      console.log("enter a question");
 	    } else {
-	      $.post("/addQuestion",{question:question, type:"text"}, (res,err) =>{
-	        console.log("RESERR**********",res,err,"**************") 
+	      $.post("/addQuestion",{question:question, type:"text", tags:this.questionTags}, (res,err) =>{
+	        console.log("RESERR**********",res,err,"**************");
+	        this.questionTags = [];
+	        $(".tagName").remove();
+	        $("#comment").val("");
+	        $("#tagInput").val("");
 	      })
 	    }
 
 	    console.log("running submit question");
 	   
+	  }
+
+
+	});
+
+
+	myApp.service('addTags', function(sendQuestion) {
+
+	  const tagOptions = ["Option1", "Option2", "Option3", "Option4"];
+	  
+
+	  this.addTag = (scope) => {
+	    console.log("this is tag", $("#tags").val());
+	    const tag =   $("#tags").val();
+	  const tagLocation= tagOptions.indexOf(tag);
+
+	    if (tagLocation<0) {
+	      console.log("Not a valid tag")
+	      return;
+	    } else {
+	    $("#askedQuestionTags").append(`<div class="tagName">${tag}</div>`)
+	     sendQuestion.questionTags.push(tag);
+	     tagOptions.splice(tagLocation,1);
+	     console.log("tagsLeft", tagOptions)
+	    }
 	  }
 
 
@@ -321,6 +356,18 @@
 	          templateUrl: '/source/views/videoQuestion.html'
 	        },
 	        'navBar@videoQuestion': {
+	          templateUrl: '/source/views/insideNav.html'
+	        },
+	      }
+	    }).
+	    state('listOfQuestions',{
+	      url:"/questions",
+	      controller: 'myCtrl',
+	      views: {
+	        "":{
+	          templateUrl: '/source/views/userQuestions.html'
+	        },
+	        'navBar@listOfQuestions': {
 	          templateUrl: '/source/views/insideNav.html'
 	        },
 	      }

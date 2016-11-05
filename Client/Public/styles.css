@@ -117,6 +117,10 @@ footer {
   cursor: pointer;
 }
 
+#loveKMA {
+  color: white;
+}
+
 
 /*//////////////////
 //////////////
@@ -139,7 +143,7 @@ Auth
   display: none;
   color: red;
 }
-#logInBody, #signUpBody {
+#logInBody, #signUpBody.ng-scope {
   background-image: url(http://bit.ly/2epTmSs);
   height: 100vh;
 }
@@ -390,3 +394,25 @@ div#textQuestionForms {
   position: relative;
 }
 
+
+body {
+  background-image: url(http://bit.ly/2epTmSs);
+}
+
+#tags {
+    text-align: left;
+}
+
+.tagName {
+    display: inline;
+}
+
+
+.tagName {
+  background-color: white;
+  margin: 4px;
+  padding: 4px 2px 2px 2px;
+  color: blue;
+  font-weight: bold;
+  border-radius: 25%;
+}

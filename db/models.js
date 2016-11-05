@@ -11,6 +11,7 @@ var userSchema = new Schema({
 
 var questionSchema = new Schema({
 	user: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+	tags:Array,
 	type:String,
 	text:String,
 	video:String,

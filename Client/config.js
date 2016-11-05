@@ -88,6 +88,18 @@ myApp.config(function($stateProvider, $locationProvider, $urlRouterProvider) {
           templateUrl: '/source/views/insideNav.html'
         },
       }
+    }).
+    state('listOfQuestions',{
+      url:"/questions",
+      controller: 'myCtrl',
+      views: {
+        "":{
+          templateUrl: '/source/views/userQuestions.html'
+        },
+        'navBar@listOfQuestions': {
+          templateUrl: '/source/views/insideNav.html'
+        },
+      }
     })
 
 

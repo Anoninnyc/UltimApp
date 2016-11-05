@@ -100,7 +100,7 @@ const addQuestion = (req,res) => {
 
   if (req.body.type==="text") {
  
-    const question = new Question({user:req.mySession.id, type:"text",text:req.body.question, video:"null"});
+    const question = new Question({user:req.mySession.id, tags:req.body.tags, type:"text", text:req.body.question, video:"null"});
 
     question.save((err,entry) => {
       console.log("err,entry",err,entry);

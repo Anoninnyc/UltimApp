@@ -1,8 +1,9 @@
-myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService,sendQuestion) {
-
+myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService,sendQuestion, addTags) {
+  $scope.tag="";
   $scope.authService = authService;
   $scope.profileService = profileService;
   $scope.sendQuestion= sendQuestion;
+  $scope.addTags= addTags
 
   $scope.login = () => {
     authService.login($scope, $scope.userNameLogin, $scope.passwordLogin);
@@ -29,7 +30,11 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
   }
 
   $scope.submitTextQuestion =() =>{
-    sendQuestion.submitTextQuestion();
+    sendQuestion.submitTextQuestion($scope);
   }
 
+  $scope.addTag = (tag,scope) =>{
+    console.log("this is the tag",tag);
+    addTags.addTag(tag,$scope);
+  }
 });

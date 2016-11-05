@@ -1,12 +1,52 @@
 <div ui-view="navBar" />
 
 <div id="textQuestionForms">
-<div class="form-group">
-  <h1>Your question</h1>
-  <textarea class="form-control" rows="5" id="comment" maxlength="1000"></textarea>
+  <div class="form-group">
+    <h1>Your question</h1>
+    <textarea class="form-control" rows="5" id="comment" maxlength="1000"></textarea>
+  </div>
+
+  <button type="submit" class="mui-btn mui-btn--raised" ng-click="submitTextQuestion()">Submit</button>
+
+  <button type="submit" class="mui-btn mui-btn--raised" ui-sref="videoQuestion">Send video instead</button>
+  <br/>
+  <br/>
+
+  <div class="ui-widget">
+    <label for="tags">Choose Tags: </label>
+    <div class="mui-textfield mui-textfield--float-label">
+      <input id="tags">
+    </div>
+  </div>
+  <br/>
+  <div id="tagsList"></div>
+  <div id="askedQuestionTags" />
+
+  <form>
+
+
+    <button type="submit" class="mui-btn mui-btn--raised" ng-click="addTag(tag)">Add tag</button>
+
+  </form>
+
+
 </div>
 
- <button type="submit" class="mui-btn mui-btn--raised" ng-click="submitTextQuestion()">Submit</button>
 
- <button type="submit" class="mui-btn mui-btn--raised" ui-sref="videoQuestion">Send video instead</button>
 </div>
+
+<script type="text/javascript">
+  $(function() {
+    var availableTags = [
+      "Option1",
+      "Option2",
+      "Option3",
+      "Option4"
+    ];
+
+    $("#tags").autocomplete({
+      source: availableTags
+    });
+  });
+
+</script>

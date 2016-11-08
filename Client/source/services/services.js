@@ -1,12 +1,20 @@
 myApp.service('authService', function($location, $window) {
   this.userName='';
+  this.userInfo={};
+
+  this.filter= (tag) => {
+    console.log("this is tag",tag,tag.length,"this is questions", this.questions);
+
+    this.questions = this.questions.filter(question=> ((question.tags).indexOf(tag)>-1)) ;
+
+    console.log("new this.questions", this.questions);
+
+  }
 
   this.signup = (scope, userName, pass, passConf) => {
     console.log(scope, userName, pass, passConf);
     if (pass.length < 1 || pass.length > 25) {
       console.log("Pass length must be right");
-
-      
     } else if (pass !== passConf) {
       console.log("They don't match!")
       $("#mismatchSignUp").css("display","inline");
@@ -35,7 +43,6 @@ myApp.service('authService', function($location, $window) {
   }
 
   this.login = (scope, userName, pass) => {
-    console.log (userName, pass);
     if (userName.length < 50 && pass.length < 50) {
       $.post("/login", {
         userName,
@@ -44,18 +51,19 @@ myApp.service('authService', function($location, $window) {
         console.log(typeof res, res);
         if (typeof res==="object") {
           console.log("going home", res);
-          this.userName=userName;
           localStorage.userInfo=JSON.stringify(res);
-          //localStorage.userInfo= "blahblahblah"
-
+          localStorage.user = res.userName;
+          localStorage.otherQuestions=JSON.stringify(res.otherQuestions);
+          this.userInfo = res;
+          scope.questions = res.questions;
+          this.questions=res.questions;
+          console.log("userInfo in auth service", this.userInfo);
           $location.path("/inside");
           scope.$apply();          
-
         } else {
           $("#badLogin").css("display","inline");
           console.log("Bad login!!")
         }
-
 
       })
     }
@@ -68,7 +76,8 @@ myApp.service('authService', function($location, $window) {
       console.log("calledback!", res, err)
       scope.user="";
       $location.path("/");
-      localStorage.userInfo="";
+      localStorage.userInfo = "";
+      localStorage.otherQuestions = "";
       //$window.localStorage.setItem("userInfo","")
     });
   }
@@ -95,6 +104,7 @@ myApp.service('profileService', function(authService, $window) {
   $.post('/profile', {preferences:{dropDowns, handles, radio1,radio2, oneChecked, AllDroppedDown, allHandled}, userName:authService.check("userName")}).then((res,err)=>{
     console.log("this is res", JSON.stringify(res),err)
     if (err!=="Success"){
+      res.questions = JSON.parse(localStorage.userInfo).questions;
       localStorage.userInfo=JSON.stringify(res);
       scope.$apply();
     }
@@ -112,8 +122,12 @@ myApp.service('profileService', function(authService, $window) {
 });
 
 
-myApp.service('sendQuestion', function() {
+myApp.service('sendQuestion', function($compile) {
   this.questionTags = [];
+  this.otherQuestions = [];
+  this.count = 0;
+  this.answering=false;
+
 
   this.submitTextQuestion = (scope) =>{
     const question= $("#comment").val();
@@ -135,6 +149,67 @@ myApp.service('sendQuestion', function() {
   }
 
 
+
+  this.getQuestions = scope => {
+    $.get("otherUserQuestions").then((res, err)=>{
+      console.log(res,err);
+      this.otherQuestions = res;
+      scope.$apply();
+      localStorage.otherQuestions = JSON.stringify(res);
+
+    })
+  };
+
+  this.answerQuestion = (id,scope) => {
+    console.log(!!this.count)
+    if (!!this.count) {
+      return;
+    }
+    const template =`<div user-answer class="userAnsw ${id}"/>`;
+    const linkFn=$compile(template);
+    const content = linkFn(scope);
+    console.log("you're trying to answerQuestion with this ID", id);
+    $(`.${id}`).after(content);
+    this.count++;
+    this.answering=true;
+    this.id=id
+
+  };
+
+
+
+  this.revealAnswers = (id,scope) =>{
+    if (!scope.answersShowing[id]){
+    $(`.specQuestion.${id}`).animate({height:"700px"},1500)
+  } else {
+    $(`.specQuestion.${id}`).animate({height:"200px"},1500)
+  }
+    
+  };
+
+
+
+  this.submitAnswer = (scope,arg) => {
+
+    if (arg){
+      console.log("JUST KILLING!")
+      $(`.userAnsw.${this.id}`).remove();
+      this.id=null;
+      this.count=0;
+      return;
+    }
+
+
+
+    console.log(this.id);
+    $.post("/submitAnswer",{id:this.id,answer:$(".form-control.userAnswer").val()}).then((res,err)=>{
+      console.log("this is res/err", res, err);
+      console.log($(`.userAnsw.${this.id}`))
+      $(`.userAnsw.${this.id}`).remove();
+      this.id=null;
+      this.count=0;
+    })
+  }
 });
 
 

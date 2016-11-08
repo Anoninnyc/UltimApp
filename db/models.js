@@ -7,14 +7,17 @@ var userSchema = new Schema({
     password: String,
     salt: String,
     preferences: Object,
+    questions: [{ type: Schema.Types.ObjectId, ref: 'Question' }]
 });
 
 var questionSchema = new Schema({
-	user: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+	user: { type: String, ref: 'User' },
+	asked: { type: Date, default: Date.now },
 	tags:Array,
 	type:String,
 	text:String,
 	video:String,
+	answers:Array,
 })
 
 userSchema.plugin(findOrCreate);

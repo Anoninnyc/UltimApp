@@ -63,6 +63,8 @@ app.post('/logout', routes.logout);
 app.post('/profile', routes.userProfile);
 app.post('/addQuestion', routes.addQuestion);
 app.post('/postVideo', routes.addVideo);
+app.get('/otherUserQuestions',routes.othersQuestions);
+app.post('/submitAnswer',routes.submitAnswer);
 
 
 app.get('*', auth, routes.wildcard);

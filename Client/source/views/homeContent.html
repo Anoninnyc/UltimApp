@@ -1,4 +1,4 @@
-<section id="userFeed">
+<section id="userFeed" >
  <h1>Your Feed</h1>
 
  <div>People you may be interested in</div>
@@ -7,12 +7,14 @@
  	<li> Milhous</li>
  	<li> Nixon</li>
  </ol>
- <div>Discussions you may be interested in </div>
- <ol>
- 	<li> Blah</li>
- 	<li> Blah</li>
- 	<li> Blah</li>
- </ol>
+
+ <div>
+<div id="questionsOfInterest">
+ <h1 ng-init="otherQuestions=getOtherQuestions()">Questions you may be interested in </h1>
+ <ul ng-repeat="question in otherQuestions| orderBy:'-asked' ">
+ 	<div user-question/>
+ </ul>
+ </div>
  Etc...
 
 </section>

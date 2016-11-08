@@ -49,6 +49,8 @@
 	__webpack_require__(1);
 	__webpack_require__(2);
 	__webpack_require__(3);
+	__webpack_require__(4);
+
 
 
 /***/ },
@@ -59,8 +61,17 @@
 	  $scope.tag="";
 	  $scope.authService = authService;
 	  $scope.profileService = profileService;
-	  $scope.sendQuestion= sendQuestion;
-	  $scope.addTags= addTags
+	  $scope.sendQuestion = sendQuestion;
+	  $scope.addTags = addTags
+	  $scope.answering= false;
+	  $scope.answersShowing = {};
+	  $scope.questions= () => {
+	    console.log("authService.questions", authService.questions);
+	    return authService.questions ||JSON.parse(window.localStorage.userInfo)['questions'];
+	  };
+
+
+
 
 	  $scope.login = () => {
 	    authService.login($scope, $scope.userNameLogin, $scope.passwordLogin);
@@ -78,38 +89,117 @@
 	    profileService.submitProfile($scope);
 	  };
 
-	  $scope.checkPref=()=>{
-	    return authService.check("preferences");
+	  $scope.checkPref=(key) => {
+	    return authService.check(key);
 	  };
 
-	  $scope.redoProfile =() =>{
+	  $scope.getUserQuestions = () =>{
+	    //console.log(JSON.parse(window.localStorage.userInfo)['questions']);
+	    return JSON.parse(window.localStorage.userInfo)['questions']
+	  }
+
+	  $scope.getInfo =(key) =>{
+	     return JSON.parse(window.localStorage.userInfo)[key];
+	  }
+
+
+	  $scope.redoProfile =() => {
 	    profileService.redoProfile();
 	  }
 
-	  $scope.submitTextQuestion =() =>{
+	  $scope.submitTextQuestion =() => {
 	    sendQuestion.submitTextQuestion($scope);
 	  }
 
-	  $scope.addTag = (tag,scope) =>{
+	  $scope.addTag = (tag,scope) => {
 	    console.log("this is the tag",tag);
 	    addTags.addTag(tag,$scope);
 	  }
+
+	  $scope.getQuestions = ( ) => {
+	    sendQuestion.getQuestions($scope);
+	  }
+
+	  $scope.getOtherQuestions = () => {
+	    return JSON.parse(window.localStorage.otherQuestions);
+	  }
+
+	  $scope.answerQuestion = (id,first,second) => {
+	    sendQuestion.answerQuestion(id,$scope);
+	    $scope.answering=true;
+	    console.log("first","second",first,second);
+	  }
+
+	  $scope.clickMe=()=>{
+	    console.log("you clicked me!")
+	  }
+
+	  $scope.submitAnswer=(arg) =>{
+	    sendQuestion.submitAnswer($scope,arg);
+	    $scope.answering=false;
+
+	  }
+
+	  $scope.revealAnswers=(id) =>{
+	    sendQuestion.revealAnswers(id,$scope);
+	    $scope.answersShowing[id]=!$scope.answersShowing[id];
+	    console.log("answers showing",$scope.answersShowing);
+	  }
+
+	   $scope.filter = (tag) => {
+	     authService.filter(tag);
+	  };
+
 	});
+
+
+
 
 
 /***/ },
 /* 2 */
 /***/ function(module, exports) {
 
+	myApp.directive('userQuestion', function($compile) {
+	console.log("RUNNING userQuestion")
+	  return {
+	  	  restrict:"A",
+	      templateUrl: 'source/views/singleQuestion.html'  
+	      };
+	});
+
+
+
+	myApp.directive('userAnswer', function($compile) {
+	console.log("RUNNING userQuestion")
+	  return {
+	  	  restrict:"A",
+	      templateUrl: 'source/views/singleAnswer.html'  
+	      };
+	});
+
+
+/***/ },
+/* 3 */
+/***/ function(module, exports) {
+
 	myApp.service('authService', function($location, $window) {
 	  this.userName='';
+	  this.userInfo={};
+
+	  this.filter= (tag) => {
+	    console.log("this is tag",tag,tag.length,"this is questions", this.questions);
+
+	    this.questions = this.questions.filter(question=> ((question.tags).indexOf(tag)>-1)) ;
+
+	    console.log("new this.questions", this.questions);
+
+	  }
 
 	  this.signup = (scope, userName, pass, passConf) => {
 	    console.log(scope, userName, pass, passConf);
 	    if (pass.length < 1 || pass.length > 25) {
 	      console.log("Pass length must be right");
-
-	      
 	    } else if (pass !== passConf) {
 	      console.log("They don't match!")
 	      $("#mismatchSignUp").css("display","inline");
@@ -138,7 +228,6 @@
 	  }
 
 	  this.login = (scope, userName, pass) => {
-	    console.log (userName, pass);
 	    if (userName.length < 50 && pass.length < 50) {
 	      $.post("/login", {
 	        userName,
@@ -147,18 +236,19 @@
 	        console.log(typeof res, res);
 	        if (typeof res==="object") {
 	          console.log("going home", res);
-	          this.userName=userName;
 	          localStorage.userInfo=JSON.stringify(res);
-	          //localStorage.userInfo= "blahblahblah"
-
+	          localStorage.user = res.userName;
+	          localStorage.otherQuestions=JSON.stringify(res.otherQuestions);
+	          this.userInfo = res;
+	          scope.questions = res.questions;
+	          this.questions=res.questions;
+	          console.log("userInfo in auth service", this.userInfo);
 	          $location.path("/inside");
 	          scope.$apply();          
-
 	        } else {
 	          $("#badLogin").css("display","inline");
 	          console.log("Bad login!!")
 	        }
-
 
 	      })
 	    }
@@ -171,7 +261,8 @@
 	      console.log("calledback!", res, err)
 	      scope.user="";
 	      $location.path("/");
-	      localStorage.userInfo="";
+	      localStorage.userInfo = "";
+	      localStorage.otherQuestions = "";
 	      //$window.localStorage.setItem("userInfo","")
 	    });
 	  }
@@ -198,6 +289,7 @@
 	  $.post('/profile', {preferences:{dropDowns, handles, radio1,radio2, oneChecked, AllDroppedDown, allHandled}, userName:authService.check("userName")}).then((res,err)=>{
 	    console.log("this is res", JSON.stringify(res),err)
 	    if (err!=="Success"){
+	      res.questions = JSON.parse(localStorage.userInfo).questions;
 	      localStorage.userInfo=JSON.stringify(res);
 	      scope.$apply();
 	    }
@@ -215,8 +307,12 @@
 	});
 
 
-	myApp.service('sendQuestion', function() {
+	myApp.service('sendQuestion', function($compile) {
 	  this.questionTags = [];
+	  this.otherQuestions = [];
+	  this.count = 0;
+	  this.answering=false;
+
 
 	  this.submitTextQuestion = (scope) =>{
 	    const question= $("#comment").val();
@@ -238,6 +334,67 @@
 	  }
 
 
+
+	  this.getQuestions = scope => {
+	    $.get("otherUserQuestions").then((res, err)=>{
+	      console.log(res,err);
+	      this.otherQuestions = res;
+	      scope.$apply();
+	      localStorage.otherQuestions = JSON.stringify(res);
+
+	    })
+	  };
+
+	  this.answerQuestion = (id,scope) => {
+	    console.log(!!this.count)
+	    if (!!this.count) {
+	      return;
+	    }
+	    const template =`<div user-answer class="userAnsw ${id}"/>`;
+	    const linkFn=$compile(template);
+	    const content = linkFn(scope);
+	    console.log("you're trying to answerQuestion with this ID", id);
+	    $(`.${id}`).after(content);
+	    this.count++;
+	    this.answering=true;
+	    this.id=id
+
+	  };
+
+
+
+	  this.revealAnswers = (id,scope) =>{
+	    if (!scope.answersShowing[id]){
+	    $(`.specQuestion.${id}`).animate({height:"700px"},1500)
+	  } else {
+	    $(`.specQuestion.${id}`).animate({height:"200px"},1500)
+	  }
+	    
+	  };
+
+
+
+	  this.submitAnswer = (scope,arg) => {
+
+	    if (arg){
+	      console.log("JUST KILLING!")
+	      $(`.userAnsw.${this.id}`).remove();
+	      this.id=null;
+	      this.count=0;
+	      return;
+	    }
+
+
+
+	    console.log(this.id);
+	    $.post("/submitAnswer",{id:this.id,answer:$(".form-control.userAnswer").val()}).then((res,err)=>{
+	      console.log("this is res/err", res, err);
+	      console.log($(`.userAnsw.${this.id}`))
+	      $(`.userAnsw.${this.id}`).remove();
+	      this.id=null;
+	      this.count=0;
+	    })
+	  }
 	});
 
 
@@ -249,7 +406,7 @@
 	  this.addTag = (scope) => {
 	    console.log("this is tag", $("#tags").val());
 	    const tag =   $("#tags").val();
-	  const tagLocation= tagOptions.indexOf(tag);
+	    const tagLocation= tagOptions.indexOf(tag);
 
 	    if (tagLocation<0) {
 	      console.log("Not a valid tag")
@@ -266,7 +423,7 @@
 	});
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports) {
 
 	myApp.config(function($stateProvider, $locationProvider, $urlRouterProvider) {

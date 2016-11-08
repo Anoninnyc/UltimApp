@@ -1,0 +1,12 @@
+<div class="specQuestion {{question._id}}">
+  <br/>
+  <div class="userText">"{{question.text}}"</div>
+  <button  ng-click="revealAnswers(question._id)" class="viewAnswer mui-btn mui-btn--raised {{question._id}}">{{answersShowing[question._id]?"Hide Answer"
+  :"View Answers!"}}</button>
+  <br/>
+  <div class="userTime">Asked:{{question.asked}}</div>{{!!question.tags.length?"Tags":""}}
+  <ul  ng-repeat="tag in question.tags track by $index"><div class="userTags" ng-click="filter(tag)">{{tag}}</div></ul>
+  <button ng-if= "(!answering) && (getInfo('userName') !== question.user)" ng-click="answerQuestion(question._id,localStorage.user,question.user)">Answer!</button>
+
+</div>
+

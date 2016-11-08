@@ -15,7 +15,6 @@ const login = (req, res) => {
   User.findOne({
     userName: req.body.userName
   }).then(user => {
-    //console.log("the user exists!:", user, user.salt);
     if (user === null) {
       res.send("InvalidUserName");
     } else {
@@ -27,16 +26,28 @@ const login = (req, res) => {
         console.log("finaluser", user);
         if (user !== null) {
           req.mySession.userName = req.body.userName;
-          req.mySession.id= user._id; 
+          req.mySession.id = user._id;
 
-          console.log(user);
-          res.send({"userName":user.userName, "preferences":user.preferences});
+          Question.find({
+            type: "text"
+          }).then(questions => {
+
+            let ownQuestions = questions.filter(question => (question.user === req.body.userName));
+            let otherQuestions = questions.filter(question => (question.user !== req.body.userName))
+
+            res.send({
+              "userName": user.userName,
+              "preferences": user.preferences,
+              questions: ownQuestions,
+              otherQuestions
+            });
+
+          })
         } else {
           res.send("invalidLogin");
         }
       })
     }
-
   })
 };
 
@@ -52,7 +63,9 @@ const signup = (req, res) => {
       console.log("NUC!!!", newUser, created)
       req.mySession.userName = req.body.userName;
       req.mySession.id = newUser._id;
-      res.send({"userName":req.body.userName});
+      res.send({
+        "userName": req.body.userName
+      });
     } else {
       res.send("Already Exists");
     }
@@ -79,40 +92,87 @@ const listen = (req, res) => {
   console.log("listening on port 3000")
 };
 
-const userProfile = (req, res) =>{
+const userProfile = (req, res) => {
 
-    var updateData = {
-      preferences: req.body.preferences
-    };
+  var updateData = {
+    preferences: req.body.preferences
+  };
 
-    User.update({userName: req.body.userName},updateData, function(err,affected) {
-      console.log('affected rows %d', affected);
-        User.findOne({userName: req.body.userName}).then(user=>{
-          console.log("this is the user", user);
-          res.send({"userName":user.userName, "preferences":user.preferences});
-        })
-    });
+  User.update({
+    userName: req.body.userName
+  }, updateData, function(err, affected) {
+    console.log('affected rows %d', affected);
+    User.findOne({
+      userName: req.body.userName
+    }).then(user => {
+      console.log("this is the user", user);
+      res.send({
+        "userName": user.userName,
+        "preferences": user.preferences
+      });
+    })
+  });
 }
 
 
-const addQuestion = (req,res) => {
+const addQuestion = (req, res) => {
   console.log("req.body.question", req.body);
 
-  if (req.body.type==="text") {
- 
-    const question = new Question({user:req.mySession.id, tags:req.body.tags, type:"text", text:req.body.question, video:"null"});
+  if (req.body.type === "text") {
 
-    question.save((err,entry) => {
-      console.log("err,entry",err,entry);
+    const question = new Question({
+      user: req.mySession.userName,
+      tags: req.body.tags,
+      type: "text",
+      text: req.body.question,
+      video: "null"
+    });
+
+    question.save((err, entry) => {
+      console.log("err,entry", err, entry);
       res.send("Entered!");
     });
   }
 
 }
 
-const addVideo = (req,res) => {
+const addVideo = (req, res) => {
   console.log("req.body.", req.body);
 }
+
+const othersQuestions = (req, res) => {
+  const username = req.mySession.userName;
+  Question.find({
+    user: {
+      $ne: username
+    }
+  }).then(questions => {
+    console.log("These are the questions!", questions);
+    res.send(questions);
+  })
+
+}
+
+const submitAnswer = (req, res) => {
+  //console.log("req.body FOR SUBMIT ANSWER!!!!", req.body);
+  Question.findByIdAndUpdate(req.body.id, {
+      $push: {
+        "answers": {
+          answerText: req.body.answer,
+          user: req.mySession.userName
+        }
+      }
+    }, {
+      safe: true,
+      upsert: true,
+      new: true
+    },
+    (response, err) => {
+      console.log("was it found???", response, err);
+      res.send(err ? "error" : "updated");
+    })
+
+};
 
 
 
@@ -125,5 +185,6 @@ module.exports = {
   userProfile,
   addQuestion,
   addVideo,
+  othersQuestions,
+  submitAnswer,
 };
-

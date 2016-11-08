@@ -1,15 +1,29 @@
-<div ui-view="navBar"/>
+<div ui-view="navBar" />
 <br/>
 <br/>
 
 <!-- Remove 'ng-if' this form has already been filled! -->
-<div id="initProfile" ng-if= "(!checkPref())||(profileService.redo)">
-<h1>Let's get you profiled!</h1>
-<div ui-view="carousel"/>
+<div id="initProfile" ng-if="(!checkPref(('preferences')))||(profileService.redo)">
+  <h1>Let's get you profiled!</h1>
+  <div ui-view="carousel" />
 </div>
 
-<div id="initProfile" ng-if= "(!!checkPref()) && (!profileService.redo)">
-<h1>Thanks for filling out the form- wanna </h1>
-<button type="submit" class="mui-btn mui-btn--raised"  ng-click="redoProfile()">Update your preferences?</button>
+<div id="initProfile" ng-if="(!!checkPref('preferences')) && (!profileService.redo)">
+  <h1>Thanks for filling out the form- wanna </h1>
+  <button type="submit" class="mui-btn mui-btn--raised" ng-click="redoProfile()">Update your preferences?</button>
+
+</div>
+<br/>
+<br/>
+
+<div id="myContent">
+<br/>
+  <h1> Your questions</h1>
+  <div >
+    <ul ng-repeat="question in questions()| orderBy:'-asked' ">
+        <div user-question/>
+      <br/>
+    </ul>
+  </div>
 
 </div>

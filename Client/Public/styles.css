@@ -170,6 +170,18 @@ section#userFeed {
   margin: auto;
 }
 
+.specQuestion {
+    margin: auto;
+    text-align: left;
+}
+
+textarea.form-control.userAnswer {
+    width: 500px;
+    margin: auto;
+    height: 200px;
+}
+
+
 
 /*//////////////////
 //////////////
@@ -408,11 +420,61 @@ body {
 }
 
 
-.tagName {
+.tagName, .userTags {
   background-color: white;
   margin: 4px;
   padding: 4px 2px 2px 2px;
   color: blue;
   font-weight: bold;
   border-radius: 25%;
+  display: inline;
+}
+
+#userQuestions {
+  margin: auto;
+  text-align: center;
+  top: 30vh;
+  position: relative;
+  list-style-position: inside;
+}
+
+div#myContent {
+    margin: auto;
+    position: absolute;
+    left: 30%;
+    text-align: left;
+}
+
+.userText {
+    font-size: 14px;
+}
+
+#myContent>h1 {
+  color: blue;
+  text-align: center;
+}
+
+.specQuestion {
+    background-color: lightblue;
+    padding: 10px 20px 20px 20px;
+    opacity: 0.8;
+    border: 2px solid black;
+    max-width: 800px;
+    word-wrap: break-word;
+    width: 500px;
+}
+
+
+/*//////////////////
+//////////////
+Profle
+///////////
+////////////////////*/
+
+button.viewAnswer {
+    float: right;
+}
+
+.userTags:hover {
+    cursor: pointer;
 }

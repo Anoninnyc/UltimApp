@@ -8,11 +8,8 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
   $scope.answersShowing = {};
   $scope.questions= () => {
     console.log("authService.questions", authService.questions);
-    return authService.questions ||JSON.parse(window.localStorage.userInfo)['questions'];
+    return authService.questions;
   };
-
-
-
 
   $scope.login = () => {
     authService.login($scope, $scope.userNameLogin, $scope.passwordLogin);

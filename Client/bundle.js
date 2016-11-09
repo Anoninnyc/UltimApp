@@ -67,7 +67,7 @@
 	  $scope.answersShowing = {};
 	  $scope.questions= () => {
 	    console.log("authService.questions", authService.questions);
-	    return authService.questions ||JSON.parse(window.localStorage.userInfo)['questions'];
+	    return authService.questions;
 	  };
 
 
@@ -186,6 +186,7 @@
 	myApp.service('authService', function($location, $window) {
 	  this.userName='';
 	  this.userInfo={};
+	  this.questions=!!window.localStorage.userInfo?JSON.parse(window.localStorage.userInfo)['questions']:undefined;
 
 	  this.filter= (tag) => {
 	    console.log("this is tag",tag,tag.length,"this is questions", this.questions);

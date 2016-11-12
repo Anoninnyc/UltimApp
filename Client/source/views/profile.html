@@ -3,27 +3,42 @@
 <br/>
 
 <!-- Remove 'ng-if' this form has already been filled! -->
-<div id="initProfile" ng-if="(!checkPref(('preferences')))||(profileService.redo)">
-  <h1>Let's get you profiled!</h1>
-  <div ui-view="carousel" />
-</div>
+<div id="profileContent">
+  <div id="initProfile" ng-if="(!checkPref(('preferences')))||(profileService.redo)">
+    <h1>Let's get you profiled!</h1>
+    <div ui-view="carousel" />
+  </div>
 
-<div id="initProfile" ng-if="(!!checkPref('preferences')) && (!profileService.redo)">
-  <h1>Thanks for filling out the form- wanna </h1>
-  <button type="submit" class="mui-btn mui-btn--raised" ng-click="redoProfile()">Update your preferences?</button>
+  <div id="initProfile" ng-if="(!!checkPref('preferences')) && (!profileService.redo)">
+    <h1>Thanks for filling out the form- wanna </h1>
+    <button type="submit" class="mui-btn mui-btn--raised" ng-click="redoProfile()">Update your preferences?</button>
 
-</div>
-<br/>
-<br/>
+  </div>
+  <br/>
+  <br/>
 
-<div id="myContent">
-<br/>
-  <h1> Your questions</h1>
-  <div >
+  <div id="myContent">
+    <br/>
+    <div id="myContentHeaders">
+      <div ng-if="!!questions().length" id="yourQuestionsHeader">Your questions</div>
+
+      <button class="FilterButton mui-btn mui-btn--raised" ng-if="getFromAuth('filterOn')" ng-click="removeFilter()">Remove Filter</button>
+    </div>
+  </div>
+  <br/>
+
+  <br/>
+
+  <br/>
+  <br/>
+  <br/>
+
+  <div>
     <ul ng-repeat="question in questions()| orderBy:'-asked' ">
-        <div user-question/>
+      <div user-question/>
       <br/>
     </ul>
+    <div question-answer class="specUserAnsw" / >
   </div>
 
 </div>

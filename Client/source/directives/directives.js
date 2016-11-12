@@ -15,3 +15,12 @@ console.log("RUNNING userQuestion")
       templateUrl: 'source/views/singleAnswer.html'  
       };
 });
+
+
+myApp.directive('questionAnswer', function($compile) {
+console.log("RUNNING questionAnswer");
+  return {
+  	  restrict:"A",
+      templateUrl: 'source/views/questionAnswer.html'  
+      };
+});

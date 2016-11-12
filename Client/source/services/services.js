@@ -1,15 +1,23 @@
 myApp.service('authService', function($location, $window) {
   this.userName='';
   this.userInfo={};
-  this.questions=!!window.localStorage.userInfo?JSON.parse(window.localStorage.userInfo)['questions']:undefined;
+  // this.otherQuestions= !!window.localStorage.userInfo?JSON.parse(window.localStorage.userInfo)['questions']:undefined;
+  this.allQuestions = !!window.localStorage.userInfo?JSON.parse(window.localStorage.userInfo)['questions']:undefined;
+  this.questions= !!window.localStorage.userInfo?JSON.parse(window.localStorage.userInfo)['questions']:undefined;
+  this.filterOn= false;
+
 
   this.filter= (tag) => {
     console.log("this is tag",tag,tag.length,"this is questions", this.questions);
-
     this.questions = this.questions.filter(question=> ((question.tags).indexOf(tag)>-1)) ;
-
     console.log("new this.questions", this.questions);
+    this.filterOn=true;
+  }
 
+    this.removeFilter= () => {
+    this.questions = this.allQuestions;
+    console.log("QUESTIONS!", this.allQuestions, this.questions);
+    this.filterOn = false;
   }
 
   this.signup = (scope, userName, pass, passConf) => {
@@ -30,7 +38,12 @@ myApp.service('authService', function($location, $window) {
       }).then((res, err) => {
         if (typeof res ==="object") {
           this.userName=userName;
-          localStorage.userInfo=JSON.stringify(res);;
+          localStorage.userInfo=JSON.stringify(res);
+          localStorage.user = res.userName;
+          localStorage.otherQuestions=JSON.stringify(res.otherQuestions);
+          this.userInfo = res;
+          scope.questions = res.questions;
+          this.questions=res.questions;
           $location.path("/inside");
           scope.$apply();
         } else {
@@ -79,6 +92,8 @@ myApp.service('authService', function($location, $window) {
       $location.path("/");
       localStorage.userInfo = "";
       localStorage.otherQuestions = "";
+      localStorage.user = "";
+      scope.$apply();
       //$window.localStorage.setItem("userInfo","")
     });
   }
@@ -127,8 +142,8 @@ myApp.service('sendQuestion', function($compile) {
   this.questionTags = [];
   this.otherQuestions = [];
   this.count = 0;
-  this.answering=false;
-
+  this.answering = {};
+  this.answers={};
 
   this.submitTextQuestion = (scope) =>{
     const question= $("#comment").val();
@@ -152,7 +167,7 @@ myApp.service('sendQuestion', function($compile) {
 
 
   this.getQuestions = scope => {
-    $.get("otherUserQuestions").then((res, err)=>{
+    $.get("/otherUserQuestions").then((res, err)=>{
       console.log(res,err);
       this.otherQuestions = res;
       scope.$apply();
@@ -163,47 +178,25 @@ myApp.service('sendQuestion', function($compile) {
 
   this.answerQuestion = (id,scope) => {
     console.log(!!this.count)
+    this.answering[id]=true;
     if (!!this.count) {
       return;
     }
-    const template =`<div user-answer class="userAnsw ${id}"/>`;
-    const linkFn=$compile(template);
-    const content = linkFn(scope);
-    console.log("you're trying to answerQuestion with this ID", id);
-    $(`.${id}`).after(content);
     this.count++;
-    this.answering=true;
     this.id=id
-
   };
 
 
-
-  this.revealAnswers = (id,scope) =>{
-    if (!scope.answersShowing[id]){
-    $(`.specQuestion.${id}`).animate({height:"700px"},1500)
-  } else {
-    $(`.specQuestion.${id}`).animate({height:"200px"},1500)
-  }
-    
-  };
-
-
-
-  this.submitAnswer = (scope,arg) => {
-
-    if (arg){
-      console.log("JUST KILLING!")
-      $(`.userAnsw.${this.id}`).remove();
+    this.submitAnswer = (scope,id,closing) => {
+    this.answering[id]=false;
+    if (!!closing) {
+      console.log("JUST KILLING!",id);
       this.id=null;
       this.count=0;
       return;
     }
-
-
-
-    console.log(this.id);
-    $.post("/submitAnswer",{id:this.id,answer:$(".form-control.userAnswer").val()}).then((res,err)=>{
+      console.log("THIS IS wht will be sent",id,$(`.${id}>.form-control.userAnswer`).val());
+      $.post("/submitAnswer",{id:this.id,answer:$(`.${id}>.form-control.userAnswer`).val()}).then((res,err)=>{
       console.log("this is res/err", res, err);
       console.log($(`.userAnsw.${this.id}`))
       $(`.userAnsw.${this.id}`).remove();
@@ -211,7 +204,37 @@ myApp.service('sendQuestion', function($compile) {
       this.count=0;
     })
   }
+
+
+
+
+  this.revealAnswers = (id,scope) => {
+
+    $.post('/getAnswers', {id:id}).then((res,err)=>{
+      console.log("RESERR",res,err);
+      scope.answersShowing[id]=!scope.answersShowing[id];
+      this.answers[id]=res;
+      scope.$apply();
+
+      console.log("whats in the oibj",scope.answersShowing);
+
+      if (!scope.answersShowing[id]){
+        $(`.specQuestion.${id}`).animate({height:"120px"},1500,function(){
+            $(`.questionsAnswer.${id}`).css({display:"none"});
+          })
+      
+      } else {
+        $(`.specQuestion.${id}`).animate({height:"500px"},1500)
+        $(`.questionsAnswer.${id}`).css({display:"inline"})
+      }
+
+    })
+  };
+
 });
+
+
+
 
 
 myApp.service('addTags', function(sendQuestion) {

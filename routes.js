@@ -154,7 +154,7 @@ const othersQuestions = (req, res) => {
 }
 
 const submitAnswer = (req, res) => {
-  //console.log("req.body FOR SUBMIT ANSWER!!!!", req.body);
+  console.log("req.body FOR SUBMIT ANSWER!!!!", req.body);
   Question.findByIdAndUpdate(req.body.id, {
       $push: {
         "answers": {
@@ -174,7 +174,12 @@ const submitAnswer = (req, res) => {
 
 };
 
-
+const getAnswers = (req, res) => {
+   Question.findOne({_id:req.body.id}).then(question=>{
+    console.log("answers to be sent", question.answers)
+    res.send(question.answers);
+   })
+}
 
 module.exports = {
   login,
@@ -187,4 +192,5 @@ module.exports = {
   addVideo,
   othersQuestions,
   submitAnswer,
+  getAnswers,
 };

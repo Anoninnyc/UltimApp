@@ -1,12 +1,30 @@
 <div class="specQuestion {{question._id}}">
-  <br/>
   <div class="userText">"{{question.text}}"</div>
-  <button  ng-click="revealAnswers(question._id)" class="viewAnswer mui-btn mui-btn--raised {{question._id}}">{{answersShowing[question._id]?"Hide Answer"
-  :"View Answers!"}}</button>
-  <br/>
-  <div class="userTime">Asked:{{question.asked}}</div>{{!!question.tags.length?"Tags":""}}
-  <ul  ng-repeat="tag in question.tags track by $index"><div class="userTags" ng-click="filter(tag)">{{tag}}</div></ul>
-  <button ng-if= "(!answering) && (getInfo('userName') !== question.user)" ng-click="answerQuestion(question._id,localStorage.user,question.user)">Answer!</button>
+  <button ng-click="revealAnswers(question._id)" class="viewAnswer mui-btn mui-btn--raised {{question._id}}">{{answersShowing[question._id]?"Hide Answer" :"View Answers!"}}</button>
+  <div class="userTime">Asked:{{question.asked}} by {{question.user}}</div>{{!!question.tags.length?"Tags":""}}
+  <ul ng-repeat="tag in question.tags track by $index">
+    <div class="userTags" ng-click="filter(tag)">{{tag}}</div>
+  </ul>
+  <button ng-if="(!(getFromSQ('answering')[question._id])) && (getInfo('userName') !== question.user)" ng-click="answerQuestion(question._id,localStorage.user,question.user)">Answer!</button>
 
+
+  <div class="questionsAnswer {{question._id}}">
+<br/>
+    <h2 ng-if="!getAnswers(question._id).length">No answer yet</h2>
+    <ul ng-repeat="answer in getAnswers(question._id)">
+      <div>
+      	<h3>"{{answer.answerText}}"</h3>
+      	<div>-{{answer.user}}</div>
+      </div>
+      </ul>
+  </div>
+</div>
+
+<div ng-if="!!getOpenFromSQ(question._id)" class="singleAnswer {{question._id}} ">
+  <h1>Your Answer</h1>
+  <textarea class="form-control userAnswer" minlength="5" maxlength="1000">
+  </textarea>
+  <button class="sub mui-btn mui-btn--raised" ng-click="submitAnswer(question._id)">Submit Answer</button>
+  <button class="sub mui-btn mui-btn--raised" ng-click="submitAnswer(question._id,true)">Kill Answer</button>
 </div>
 

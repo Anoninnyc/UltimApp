@@ -5,6 +5,23 @@ Landing Page
 ///////////
 ////////////////////*/
 
+
+h1#header {
+  color: white;
+  font-weight: bold;
+}
+
+div#introDescription {
+  font-family: fantasy;
+  color: teal;
+}
+
+td.mui--text-title {
+    font-family: cursive;
+    font-weight: bold;
+    color: blue;
+}
+
 section#fixedLanding {
   background-color: blue;
   height: 350px;
@@ -173,6 +190,7 @@ section#userFeed {
 .specQuestion {
     margin: auto;
     text-align: left;
+    overflow: auto;
 }
 
 textarea.form-control.userAnswer {
@@ -180,7 +198,6 @@ textarea.form-control.userAnswer {
     margin: auto;
     height: 200px;
 }
-
 
 
 /*//////////////////
@@ -237,6 +254,10 @@ Carousel
   top: 50px;
 }
 
+button#back4 {
+  top: 12vh;
+  position: relative;
+}
 
 /*div#slider-1 {
     width: 300px;
@@ -295,20 +316,11 @@ div#custom-handle {
   text-align: center;
 }
 
-.item:hover {
-  border-radius: 25% !important;
-  transition: border-radius 1s !important;
-}
 
 div#initProfile {
   text-align: center;
 }
 
-.four,
-.three,
-.two {
-  border-radius: 25%;
-}
 
 button#submitProf {
   position: relative;
@@ -462,6 +474,7 @@ div#myContent {
     max-width: 800px;
     word-wrap: break-word;
     width: 500px;
+    height: 120px;
 }
 
 
@@ -472,9 +485,33 @@ Profle
 ////////////////////*/
 
 button.viewAnswer {
-    float: right;
+  float: right;
+  bottom: 2vh;
 }
 
 .userTags:hover {
     cursor: pointer;
+}
+
+div#yourQuestionsHeader {
+    display: inline;
+    font-size: 45px;
+    margin: auto;
+}
+
+div#myContentHeaders {
+    text-align: center;
+}
+.FilterButton {
+  left: 5%;
+}
+
+.questionsAnswer {
+  display: none;
+  text-align: center;
+}
+
+h2#answersHeader {
+    text-align: center;
+    position: relative;
 }

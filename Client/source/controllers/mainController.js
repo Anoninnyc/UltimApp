@@ -1,4 +1,5 @@
 myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService,sendQuestion, addTags) {
+  
   $scope.tag="";
   $scope.authService = authService;
   $scope.profileService = profileService;
@@ -6,13 +7,39 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
   $scope.addTags = addTags
   $scope.answering= false;
   $scope.answersShowing = {};
+
   $scope.questions= () => {
-    console.log("authService.questions", authService.questions);
     return authService.questions;
   };
 
+
+  $scope.getFromAuth = (key) => {
+    return authService[key];
+  }
+
+  $scope.getFromSQ = (key) => {
+    return sendQuestion[key];
+  }
+
+  $scope.getOpenFromSQ = (key) => {
+    return sendQuestion.answering[key];
+  }
+
+   $scope.getAnswers = (key) => {
+    return sendQuestion.answers[key] || [];
+  }
+
+  $scope.removeFilter= ()=>{
+    console.log("attempting to remove filter");
+    authService.removeFilter();
+    $scope.answersShowing={};
+    $(".specQuestion").css({height:"100px"});
+    $(".questionsAnswer").css({display:"none"})
+  }
+
+
   $scope.login = () => {
-    authService.login($scope, $scope.userNameLogin, $scope.passwordLogin);
+    $scope.authService.login($scope, $scope.userNameLogin, $scope.passwordLogin);
   };
 
   $scope.signup = () => {
@@ -64,7 +91,6 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
 
   $scope.answerQuestion = (id,first,second) => {
     sendQuestion.answerQuestion(id,$scope);
-    $scope.answering=true;
     console.log("first","second",first,second);
   }
 
@@ -72,15 +98,12 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
     console.log("you clicked me!")
   }
 
-  $scope.submitAnswer=(arg) =>{
-    sendQuestion.submitAnswer($scope,arg);
-    $scope.answering=false;
-
+  $scope.submitAnswer=(id,closing) =>{
+    sendQuestion.submitAnswer($scope,id,closing);
   }
 
   $scope.revealAnswers=(id) =>{
     sendQuestion.revealAnswers(id,$scope);
-    $scope.answersShowing[id]=!$scope.answersShowing[id];
     console.log("answers showing",$scope.answersShowing);
   }
 
@@ -89,6 +112,8 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
   };
 
 });
+
+
 
 
 

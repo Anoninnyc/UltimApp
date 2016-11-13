@@ -9,6 +9,7 @@ Landing Page
 h1#header {
   color: white;
   font-weight: bold;
+  font-size: 50px;
 }
 
 div#introDescription {

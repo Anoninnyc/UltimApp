@@ -4,12 +4,21 @@ const app = express();
 const path = require('path');
 const routes = require('./routes');
 const utils = require('./utils');
-const http = require('http')
 const MongoClient = require('mongodb').MongoClient
 mongoose.Promise = require('bluebird');
 const bodyParser = require('body-parser');
 const sessions = require("client-sessions");
+const server= app.listen(3000, routes.listen);
 
+const io = require('socket.io').listen(server)
+
+
+io.on('connection', function(socket){
+  console.log('connected!');
+  socket.on('test', function(msg){
+    console.log('message: ' + msg);
+  });
+});
 
 //////
 ///DB
@@ -45,7 +54,7 @@ const auth = (req, res, next) => {
 
 app.use(sessions(utils.sessionSpecs));
 
-
+app.use(express.static(__dirname));
 app.use(express.static(__dirname + '/client'));
 app.use(express.static(__dirname + '/client/Public'));
 app.use(bodyParser.urlencoded());
@@ -69,4 +78,4 @@ app.post('/getAnswers',routes.getAnswers);
 
 
 app.get('*', auth, routes.wildcard);
-app.listen(3000, routes.listen);
+//app.listen(3000, routes.listen);

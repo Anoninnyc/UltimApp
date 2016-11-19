@@ -1,10 +1,11 @@
 myApp.directive('userQuestion', function($compile) {
 console.log("RUNNING userQuestion")
   return {
-  	  restrict:"A",
+  	  restrict:"A", 
       templateUrl: 'source/views/singleQuestion.html'  
       };
 });
+
 
 
 

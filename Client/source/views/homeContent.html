@@ -8,8 +8,7 @@
  	<li> Nixon</li>
  </ol>
 
- <div>
-<div id="questionsOfInterest">
+<div ng-controller="questionCtrl" id="questionsOfInterest">
  <h1 id="questionsHome" ng-init="otherQuestions=getOtherQuestions()">Questions you may be interested in </h1>
  <ul ng-repeat="question in otherQuestions| orderBy:'-asked' ">
  	<div user-question/>

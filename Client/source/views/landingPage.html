@@ -5,7 +5,7 @@
             <td class="mui--text-title">UltimApp</td>
             <td align="right">
               <ul class="mui-list--inline mui--text-body2">
-                <li><a  ui-sref="login" onclick="alert('Coming Soon!')">About</a></li>
+                <li><a  onclick='alert("coming soon")'>About</a></li>
                 <li><a ui-sref="login">Login</a></li>
                 <li><a ui-sref="signup">Signup</a></li>
               </ul>
@@ -78,7 +78,7 @@
 
             if (bottom_of_object-bottom_of_window < 68 ){
                 $('.footer').animate({'opacity':'1'}, 500);
-                $(window).off();
-            }
+               // $(window).off();
+            }  
         }); 
 </script>

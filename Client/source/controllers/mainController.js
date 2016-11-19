@@ -1,12 +1,15 @@
-myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService,sendQuestion, addTags) {
-  
+myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService,sendQuestion, addTags, socket) {
+  console.log("running myCtrl");
   $scope.tag="";
-  $scope.authService = authService;
-  $scope.profileService = profileService;
-  $scope.sendQuestion = sendQuestion;
-  $scope.addTags = addTags
   $scope.answering= false;
   $scope.answersShowing = {};
+
+  const services = {
+    authService,
+    profileService,
+    sendQuestion, 
+    addTags,
+  };
 
   $scope.questions= () => {
     return authService.questions;
@@ -39,7 +42,7 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
 
 
   $scope.login = () => {
-    $scope.authService.login($scope, $scope.userNameLogin, $scope.passwordLogin);
+    authService.login($scope, $scope.userNameLogin, $scope.passwordLogin);
   };
 
   $scope.signup = () => {
@@ -54,16 +57,15 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
     profileService.submitProfile($scope);
   };
 
-  $scope.checkPref=(key) => {
+  $scope.checkPref= (key) => {
     return authService.check(key);
   };
 
   $scope.getUserQuestions = () =>{
-    //console.log(JSON.parse(window.localStorage.userInfo)['questions']);
-    return JSON.parse(window.localStorage.userInfo)['questions']
+    return JSON.parse(window.localStorage.userInfo)['questions'];
   }
 
-  $scope.getInfo =(key) =>{
+  $scope.getInfo =(key) => {
      return JSON.parse(window.localStorage.userInfo)[key];
   }
 
@@ -86,16 +88,12 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
   }
 
   $scope.getOtherQuestions = () => {
-    return JSON.parse(window.localStorage.otherQuestions);
+    return authService.otherQuestions;
   }
 
   $scope.answerQuestion = (id,first,second) => {
     sendQuestion.answerQuestion(id,$scope);
     console.log("first","second",first,second);
-  }
-
-  $scope.clickMe=()=>{
-    console.log("you clicked me!")
   }
 
   $scope.submitAnswer=(id,closing) =>{
@@ -116,4 +114,8 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
 
 
 
+myApp.controller('questionCtrl', function($scope){
+  
+  $scope.questionType="othersQuestions";
 
+});

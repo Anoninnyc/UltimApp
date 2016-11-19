@@ -75,7 +75,6 @@ const signup = (req, res) => {
 };
 
 const wildcard = (req, res) => {
-  console.log("req.url && mysession", req.url, req.mySession);
   res.status(200).sendFile(pathToStaticDir);
 };
 

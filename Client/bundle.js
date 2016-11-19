@@ -48,53 +48,11 @@
 
 	__webpack_require__(1);
 
-	// myApp.run(function($rootScope,$location) {
-
-	//     $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
-	//     	console.log("CHAHED!")
-	//     	 $rootScope.actualLocation = $location.path();
-	//     })
-
-	//     $rootScope.$on("$routeChangeStart", function (event, next, current) {
-	//     console.log("changed again!")
-	// 	}); 
-
-	// 	 $rootScope.$on("$locationChangeStart", function (event, next, current) {
-	//     console.log("changed again2!")
-	// 	}); 
-
-	//   $rootScope.$watch(function() {
-	//     return $location.path()
-	//   }, function(newLocation) {
-	//     if ($rootScope.actualLocation === newLocation) {
-	//       // run a function or perform a reload
-	//       console.log("run a function or perform a reload");
-	//     }
-	//   });
-	// })
 
 	__webpack_require__(2);
 	__webpack_require__(3);
 	__webpack_require__(4);
 
-
-	// myApp.run(function($rootScope, $route, $location) {
-	//   //Bind the $locationChangeSuccess event on the //rootScope, so that we don't need to 
-	//   //bind in induvidual controllers.
-
-	//   $rootScope.$on('$locationChangeSuccess', function() {
-	//     $rootScope.actualLocation = $location.path();
-	//   });
-
-	//   $rootScope.$watch(function() {
-	//     return $location.path()
-	//   }, function(newLocation) {
-	//     if ($rootScope.actualLocation === newLocation) {
-
-	//       // run a function or perform a reload
-	//     }
-	//   });
-	// });
 	window.onhashchange = function() { 
 	     console.log("HASHCHANGED!")
 	}
@@ -225,15 +183,19 @@
 /* 2 */
 /***/ function(module, exports) {
 
-	myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService,sendQuestion, addTags) {
-	  
+	myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService,sendQuestion, addTags, socket) {
+	  console.log("running myCtrl");
+	  socket.emit('test','testMESS');
 	  $scope.tag="";
-	  $scope.authService = authService;
-	  $scope.profileService = profileService;
-	  $scope.sendQuestion = sendQuestion;
-	  $scope.addTags = addTags
 	  $scope.answering= false;
 	  $scope.answersShowing = {};
+
+	  const services = {
+	    authService,
+	    profileService,
+	    sendQuestion, 
+	    addTags,
+	  };
 
 	  $scope.questions= () => {
 	    return authService.questions;
@@ -266,7 +228,7 @@
 
 
 	  $scope.login = () => {
-	    $scope.authService.login($scope, $scope.userNameLogin, $scope.passwordLogin);
+	    authService.login($scope, $scope.userNameLogin, $scope.passwordLogin);
 	  };
 
 	  $scope.signup = () => {
@@ -281,16 +243,15 @@
 	    profileService.submitProfile($scope);
 	  };
 
-	  $scope.checkPref=(key) => {
+	  $scope.checkPref= (key) => {
 	    return authService.check(key);
 	  };
 
 	  $scope.getUserQuestions = () =>{
-	    //console.log(JSON.parse(window.localStorage.userInfo)['questions']);
-	    return JSON.parse(window.localStorage.userInfo)['questions']
+	    return JSON.parse(window.localStorage.userInfo)['questions'];
 	  }
 
-	  $scope.getInfo =(key) =>{
+	  $scope.getInfo =(key) => {
 	     return JSON.parse(window.localStorage.userInfo)[key];
 	  }
 
@@ -313,16 +274,12 @@
 	  }
 
 	  $scope.getOtherQuestions = () => {
-	    return JSON.parse(window.localStorage.otherQuestions);
+	    return authService.otherQuestions;
 	  }
 
 	  $scope.answerQuestion = (id,first,second) => {
 	    sendQuestion.answerQuestion(id,$scope);
 	    console.log("first","second",first,second);
-	  }
-
-	  $scope.clickMe=()=>{
-	    console.log("you clicked me!")
 	  }
 
 	  $scope.submitAnswer=(id,closing) =>{
@@ -343,8 +300,11 @@
 
 
 
+	myApp.controller('questionCtrl', function($scope){
+	  
+	  $scope.questionType="othersQuestions";
 
-
+	});
 
 /***/ },
 /* 3 */
@@ -353,10 +313,11 @@
 	myApp.directive('userQuestion', function($compile) {
 	console.log("RUNNING userQuestion")
 	  return {
-	  	  restrict:"A",
+	  	  restrict:"A", 
 	      templateUrl: 'source/views/singleQuestion.html'  
 	      };
 	});
+
 
 
 
@@ -379,15 +340,35 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(5);
+	__webpack_require__(6);
+	__webpack_require__(7);
+	__webpack_require__(8);
+	__webpack_require__(9);
+
+
+/***/ },
+/* 5 */
 /***/ function(module, exports) {
 
 	myApp.service('authService', function($location, $window) {
 	  this.userName='';
 	  this.userInfo={};
-	  // this.otherQuestions= !!window.localStorage.userInfo?JSON.parse(window.localStorage.userInfo)['questions']:undefined;
+
+	  // Below two are other users' questions
+	  this.otherQuestions= !!window.localStorage.otherQuestions?JSON.parse(window.localStorage.otherQuestions):undefined;
+	  this.allOtherQuestions=undefined;
+
+
+	// Below two are the users OWN questions
 	  this.allQuestions = !!window.localStorage.userInfo?JSON.parse(window.localStorage.userInfo)['questions']:undefined;
 	  this.questions= !!window.localStorage.userInfo?JSON.parse(window.localStorage.userInfo)['questions']:undefined;
+
 	  this.filterOn= false;
+
+	  this.people = [];
 
 
 	  this.filter= (tag) => {
@@ -395,13 +376,13 @@
 	    this.questions = this.questions.filter(question=> ((question.tags).indexOf(tag)>-1)) ;
 	    console.log("new this.questions", this.questions);
 	    this.filterOn=true;
-	  }
+	  };
 
 	    this.removeFilter= () => {
 	    this.questions = this.allQuestions;
 	    console.log("QUESTIONS!", this.allQuestions, this.questions);
 	    this.filterOn = false;
-	  }
+	  };
 
 	  this.signup = (scope, userName, pass, passConf) => {
 	    console.log(scope, userName, pass, passConf);
@@ -411,8 +392,6 @@
 	      console.log("They don't match!")
 	      $("#mismatchSignUp").css("display","inline");
 	      $("#userNameTaken").css("display","none");
-
-
 	    } else {
 	      $.post("/signup", {
 	        userName,
@@ -451,6 +430,7 @@
 	          localStorage.userInfo=JSON.stringify(res);
 	          localStorage.user = res.userName;
 	          localStorage.otherQuestions=JSON.stringify(res.otherQuestions);
+	          this.otherQuestions=res.otherQuestions;
 	          this.userInfo = res;
 	          scope.questions = res.questions;
 	          this.questions=res.questions;
@@ -487,6 +467,10 @@
 
 	})
 
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
 	myApp.service('profileService', function(authService, $window) {
 
 	  this.redo = false; 
@@ -521,6 +505,11 @@
 	});
 
 
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	
 	myApp.service('sendQuestion', function($compile) {
 	  this.questionTags = [];
 	  this.otherQuestions = [];
@@ -617,14 +606,14 @@
 	});
 
 
-
-
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
 
 	myApp.service('addTags', function(sendQuestion) {
 
 	  const tagOptions = ["Option1", "Option2", "Option3", "Option4"];
 	  
-
 	  this.addTag = (scope) => {
 	    console.log("this is tag", $("#tags").val());
 	    const tag =   $("#tags").val();
@@ -640,8 +629,34 @@
 	     console.log("tagsLeft", tagOptions)
 	    }
 	  }
+	});
 
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
 
+	myApp.factory('socket', function ($rootScope) {
+	  var socket = io();
+	  return {
+	    on: function (eventName, callback) {
+	      socket.on(eventName, function () {  
+	        var args = arguments;
+	        $rootScope.$apply(function () {
+	          callback.apply(socket, args);
+	        });
+	      });
+	    },
+	    emit: function (eventName, data, callback) {
+	      socket.emit(eventName, data, function () {
+	        var args = arguments;
+	        $rootScope.$apply(function () {
+	          if (callback) {
+	            callback.apply(socket, args);
+	          }
+	        });
+	      })
+	    }
+	  };
 	});
 
 /***/ }

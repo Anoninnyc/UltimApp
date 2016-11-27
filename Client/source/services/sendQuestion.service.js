@@ -1,10 +1,18 @@
 
-myApp.service('sendQuestion', function($compile) {
+myApp.service('sendQuestion', function($compile, socket, authService) {
+  
+
   this.questionTags = [];
   this.otherQuestions = [];
   this.count = 0;
   this.answering = {};
   this.answers={};
+  let that = this;
+
+  socket.on("ioresponse", function(msg) {
+    that.answers[msg.questionId].push({answerText:msg.answerText,user:msg.user});
+    console.log("here are your nswers", that.answers);
+  });
 
   this.submitTextQuestion = (scope) =>{
     const question= $("#comment").val();
@@ -49,6 +57,7 @@ myApp.service('sendQuestion', function($compile) {
 
 
     this.submitAnswer = (scope,id,closing) => {
+    
     this.answering[id]=false;
     if (!!closing) {
       console.log("JUST KILLING!",id);
@@ -57,6 +66,8 @@ myApp.service('sendQuestion', function($compile) {
       return;
     }
       console.log("THIS IS wht will be sent",id,$(`.${id}>.form-control.userAnswer`).val());
+      socket.emit('addMessage', {answerText:$(`.${id}>.form-control.userAnswer`).val(), questionId:id, user:authService.userName});
+
       $.post("/submitAnswer",{id:this.id,answer:$(`.${id}>.form-control.userAnswer`).val()}).then((res,err)=>{
       console.log("this is res/err", res, err);
       console.log($(`.userAnsw.${this.id}`))

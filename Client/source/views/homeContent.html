@@ -9,8 +9,9 @@
  </ol>
 
 <div ng-controller="questionCtrl" id="questionsOfInterest">
- <h1 id="questionsHome" ng-init="otherQuestions=getOtherQuestions()">Questions you may be interested in </h1>
- <ul ng-repeat="question in otherQuestions| orderBy:'-asked' ">
+ <h1 id="questionsHome">Questions you may be interested in </h1>
+ <button class="FilterButton mui-btn mui-btn--raised" ng-if="authService['otherQuestionsFilterOn']" ng-click="removeFilter('otherQuestions')">Remove Filter</button>
+ <ul ng-repeat="question in getOtherQuestions()| orderBy:'-asked' ">
  	<div user-question/>
  </ul>
 

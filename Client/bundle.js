@@ -185,7 +185,6 @@
 
 	myApp.controller('myCtrl', function($scope,$location, authService, $window, profileService,sendQuestion, addTags, socket) {
 	  console.log("running myCtrl");
-	  socket.emit('test','testMESS');
 	  $scope.tag="";
 	  $scope.answering= false;
 	  $scope.answersShowing = {};
@@ -195,32 +194,28 @@
 	    profileService,
 	    sendQuestion, 
 	    addTags,
+	    socket,
 	  };
+
+	  Object.assign($scope,services);
+
 
 	  $scope.questions= () => {
 	    return authService.questions;
 	  };
 
-
-	  $scope.getFromAuth = (key) => {
-	    return authService[key];
-	  }
-
-	  $scope.getFromSQ = (key) => {
-	    return sendQuestion[key];
-	  }
-
-	  $scope.getOpenFromSQ = (key) => {
-	    return sendQuestion.answering[key];
-	  }
+	  $scope.getOtherQuestions = () => {
+	    console.log("this is what GOQ is yielding",authService.otherQuestions);
+	    return authService.otherQuestions;
+	  };
 
 	   $scope.getAnswers = (key) => {
 	    return sendQuestion.answers[key] || [];
 	  }
 
-	  $scope.removeFilter= ()=>{
+	  $scope.removeFilter= (otherQuestions)=>{
 	    console.log("attempting to remove filter");
-	    authService.removeFilter();
+	    authService.removeFilter(otherQuestions);
 	    $scope.answersShowing={};
 	    $(".specQuestion").css({height:"100px"});
 	    $(".questionsAnswer").css({display:"none"})
@@ -273,10 +268,7 @@
 	    sendQuestion.getQuestions($scope);
 	  }
 
-	  $scope.getOtherQuestions = () => {
-	    return authService.otherQuestions;
-	  }
-
+	  
 	  $scope.answerQuestion = (id,first,second) => {
 	    sendQuestion.answerQuestion(id,$scope);
 	    console.log("first","second",first,second);
@@ -291,12 +283,11 @@
 	    console.log("answers showing",$scope.answersShowing);
 	  }
 
-	   $scope.filter = (tag) => {
-	     authService.filter(tag);
+	   $scope.filter = (tag, questionType) => {
+	     authService.filter(tag, questionType);
 	  };
 
 	});
-
 
 
 
@@ -354,12 +345,13 @@
 /***/ function(module, exports) {
 
 	myApp.service('authService', function($location, $window) {
-	  this.userName='';
+	  this.userName= localStorage.userName||'obama';
 	  this.userInfo={};
 
 	  // Below two are other users' questions
-	  this.otherQuestions= !!window.localStorage.otherQuestions?JSON.parse(window.localStorage.otherQuestions):undefined;
-	  this.allOtherQuestions=undefined;
+	  this.otherQuestions= (!!window.localStorage.otherQuestions)?JSON.parse(window.localStorage.otherQuestions):undefined;
+	  this.allOtherQuestions = (!!window.localStorage.otherQuestions)?JSON.parse(window.localStorage.otherQuestions):undefined;
+
 
 
 	// Below two are the users OWN questions
@@ -367,25 +359,39 @@
 	  this.questions= !!window.localStorage.userInfo?JSON.parse(window.localStorage.userInfo)['questions']:undefined;
 
 	  this.filterOn= false;
+	  this.otherQuestionsFilterOn = false;
 
 	  this.people = [];
 
 
-	  this.filter= (tag) => {
-	    console.log("this is tag",tag,tag.length,"this is questions", this.questions);
-	    this.questions = this.questions.filter(question=> ((question.tags).indexOf(tag)>-1)) ;
-	    console.log("new this.questions", this.questions);
-	    this.filterOn=true;
+	  this.filter = (tag, questionType) => {
+	    console.log("this is questionType", questionType)
+	     if (questionType){
+	      console.log("this is questions", this.otherQuestions);
+	      this.otherQuestions = this.otherQuestions.filter(question=> ((question.tags).indexOf(tag)>-1)) ;
+	      console.log("new this.questions", this.otherQuestions);
+	      this.otherQuestionsFilterOn=true;
+	    } else {
+	      console.log("this is tag",tag,tag.length,"this is questions", this.questions);
+	      this.questions = this.questions.filter(question=> ((question.tags).indexOf(tag)>-1)) ;
+	      console.log("new this.questions", this.questions);
+	      this.filterOn=true;
+	    }
 	  };
 
-	    this.removeFilter= () => {
-	    this.questions = this.allQuestions;
-	    console.log("QUESTIONS!", this.allQuestions, this.questions);
-	    this.filterOn = false;
+	    this.removeFilter= (otherQuestions) => {
+	      if (otherQuestions){
+	       this.otherQuestions = this.allOtherQuestions;
+	       console.log("QUESTIONS!", this.otherQuestions, this.allOtherQuestions);
+	       this.otherQuestionsFilterOn = false;
+	      } else {
+	        this.questions = this.allQuestions;
+	        console.log("QUESTIONS!", this.allQuestions, this.questions);
+	        this.filterOn = false;
+	      }
 	  };
 
 	  this.signup = (scope, userName, pass, passConf) => {
-	    console.log(scope, userName, pass, passConf);
 	    if (pass.length < 1 || pass.length > 25) {
 	      console.log("Pass length must be right");
 	    } else if (pass !== passConf) {
@@ -399,10 +405,11 @@
 	        passConf
 	      }).then((res, err) => {
 	        if (typeof res ==="object") {
+	          console.log("this is res",res)
 	          this.userName=userName;
 	          localStorage.userInfo=JSON.stringify(res);
-	          localStorage.user = res.userName;
 	          localStorage.otherQuestions=JSON.stringify(res.otherQuestions);
+	          this.otherQuestions = res.otherQuestions;
 	          this.userInfo = res;
 	          scope.questions = res.questions;
 	          this.questions=res.questions;
@@ -428,12 +435,13 @@
 	        if (typeof res==="object") {
 	          console.log("going home", res);
 	          localStorage.userInfo=JSON.stringify(res);
-	          localStorage.user = res.userName;
+	          localStorage.userName = res.userName;
 	          localStorage.otherQuestions=JSON.stringify(res.otherQuestions);
 	          this.otherQuestions=res.otherQuestions;
 	          this.userInfo = res;
 	          scope.questions = res.questions;
 	          this.questions=res.questions;
+	          this.userName = res.userName;
 	          console.log("userInfo in auth service", this.userInfo);
 	          $location.path("/inside");
 	          scope.$apply();          
@@ -451,11 +459,11 @@
 	      "logout": "now"
 	    }).then((res, err) => {
 	      console.log("calledback!", res, err)
-	      scope.user="";
 	      $location.path("/");
 	      localStorage.userInfo = "";
 	      localStorage.otherQuestions = "";
 	      localStorage.user = "";
+	      localStorage.userName = "";
 	      scope.$apply();
 	      //$window.localStorage.setItem("userInfo","")
 	    });
@@ -499,6 +507,7 @@
 	    console.log("runningREDO!", authService.check("preferences"));
 	    if (authService.check("preferences")){
 	    this.redo = !this.redo; 
+	    console.log("status of redo", this.redo)
 	    }
 	  }
 
@@ -509,13 +518,74 @@
 /* 7 */
 /***/ function(module, exports) {
 
+	myApp.service('addTags', function(sendQuestion) {
+
+	  const tagOptions = ["Option1", "Option2", "Option3", "Option4"];
+	  
+	  this.addTag = (scope) => {
+	    console.log("this is tag", $("#tags").val());
+	    const tag =   $("#tags").val();
+	    const tagLocation= tagOptions.indexOf(tag);
+
+	    if (tagLocation<0) {
+	      console.log("Not a valid tag")
+	      return;
+	    } else {
+	    $("#askedQuestionTags").append(`<div class="tagName">${tag}</div>`)
+	     sendQuestion.questionTags.push(tag);
+	     tagOptions.splice(tagLocation,1);
+	     console.log("tagsLeft", tagOptions)
+	    }
+	  }
+	});
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	myApp.factory('socket', function ($rootScope) {
+	  var socket = io();
+	  return {
+	    on: function (eventName, callback) {
+	      socket.on(eventName, function () {  
+	        var args = arguments;
+	        $rootScope.$apply(function () {
+	          callback.apply(socket, args);
+	        });
+	      });
+	    },
+	    emit: function (eventName, data, callback) {
+	      socket.emit(eventName, data, function () {
+	        var args = arguments;
+	        $rootScope.$apply(function () {
+	          if (callback) {
+	            callback.apply(socket, args);
+	          }
+	        });
+	      })
+	    }
+	  };
+	});
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
 	
-	myApp.service('sendQuestion', function($compile) {
+	myApp.service('sendQuestion', function($compile, socket, authService) {
+	  
+
 	  this.questionTags = [];
 	  this.otherQuestions = [];
 	  this.count = 0;
 	  this.answering = {};
 	  this.answers={};
+	  let that = this;
+
+	  socket.on("ioresponse", function(msg) {
+	    that.answers[msg.questionId].push({answerText:msg.answerText,user:msg.user});
+	    console.log("here are your nswers", that.answers);
+	  });
 
 	  this.submitTextQuestion = (scope) =>{
 	    const question= $("#comment").val();
@@ -560,6 +630,7 @@
 
 
 	    this.submitAnswer = (scope,id,closing) => {
+	    
 	    this.answering[id]=false;
 	    if (!!closing) {
 	      console.log("JUST KILLING!",id);
@@ -568,6 +639,8 @@
 	      return;
 	    }
 	      console.log("THIS IS wht will be sent",id,$(`.${id}>.form-control.userAnswer`).val());
+	      socket.emit('addMessage', {answerText:$(`.${id}>.form-control.userAnswer`).val(), questionId:id, user:authService.userName});
+
 	      $.post("/submitAnswer",{id:this.id,answer:$(`.${id}>.form-control.userAnswer`).val()}).then((res,err)=>{
 	      console.log("this is res/err", res, err);
 	      console.log($(`.userAnsw.${this.id}`))
@@ -605,59 +678,6 @@
 
 	});
 
-
-/***/ },
-/* 8 */
-/***/ function(module, exports) {
-
-	myApp.service('addTags', function(sendQuestion) {
-
-	  const tagOptions = ["Option1", "Option2", "Option3", "Option4"];
-	  
-	  this.addTag = (scope) => {
-	    console.log("this is tag", $("#tags").val());
-	    const tag =   $("#tags").val();
-	    const tagLocation= tagOptions.indexOf(tag);
-
-	    if (tagLocation<0) {
-	      console.log("Not a valid tag")
-	      return;
-	    } else {
-	    $("#askedQuestionTags").append(`<div class="tagName">${tag}</div>`)
-	     sendQuestion.questionTags.push(tag);
-	     tagOptions.splice(tagLocation,1);
-	     console.log("tagsLeft", tagOptions)
-	    }
-	  }
-	});
-
-/***/ },
-/* 9 */
-/***/ function(module, exports) {
-
-	myApp.factory('socket', function ($rootScope) {
-	  var socket = io();
-	  return {
-	    on: function (eventName, callback) {
-	      socket.on(eventName, function () {  
-	        var args = arguments;
-	        $rootScope.$apply(function () {
-	          callback.apply(socket, args);
-	        });
-	      });
-	    },
-	    emit: function (eventName, data, callback) {
-	      socket.emit(eventName, data, function () {
-	        var args = arguments;
-	        $rootScope.$apply(function () {
-	          if (callback) {
-	            callback.apply(socket, args);
-	          }
-	        });
-	      })
-	    }
-	  };
-	});
 
 /***/ }
 /******/ ]);

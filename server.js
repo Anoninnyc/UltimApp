@@ -14,10 +14,13 @@ const io = require('socket.io').listen(server)
 
 
 io.on('connection', function(socket){
-  console.log('connected!');
-  socket.on('test', function(msg){
-    console.log('message: ' + msg);
+  console.log('Socket connected!');
+
+  socket.on('addMessage', function(msg){
+    console.log("***************You're trying to add a message!**********");
+    io.emit('ioresponse', msg);
   });
+
 });
 
 //////

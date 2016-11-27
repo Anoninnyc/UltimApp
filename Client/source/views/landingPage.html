@@ -71,14 +71,18 @@
     </section>
 
 <script>
-    $(window).scroll(function(){            
+
+    $(window).scroll(function(){
             var bottom_of_object = $('.footer').offset().top + $('.footer').outerHeight();
             var bottom_of_window = $(window).scrollTop() + $(window).height();
 
-
+            console.log(bottom_of_object-bottom_of_window)
             if (bottom_of_object-bottom_of_window < 68 ){
                 $('.footer').animate({'opacity':'1'}, 500);
                // $(window).off();
-            }  
+            } 
+            //  else if (bottom_of_object-bottom_of_window > 100 ) {
+            //    $('.footer').animate({'opacity':'0'}, 500);
+            // }
         }); 
 </script>

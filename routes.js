@@ -60,12 +60,19 @@ const signup = (req, res) => {
     salt,
   }, (err, newUser, created) => {
     if (created) {
+        Question.find({
+            type: "text"
+          }).then(questions => {
+
       console.log("NUC!!!", newUser, created)
       req.mySession.userName = req.body.userName;
       req.mySession.id = newUser._id;
       res.send({
-        "userName": req.body.userName
+        "userName": req.body.userName,
+        otherQuestions: questions,
       });
+     })
+
     } else {
       res.send("Already Exists");
     }

@@ -26,6 +26,7 @@ myApp.service('profileService', function(authService, $window) {
     console.log("runningREDO!", authService.check("preferences"));
     if (authService.check("preferences")){
     this.redo = !this.redo; 
+    console.log("status of redo", this.redo)
     }
   }
 

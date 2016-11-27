@@ -21,18 +21,14 @@
     <br/>
     <div id="myContentHeaders">
       <div ng-if="!!questions().length" id="yourQuestionsHeader">Your questions</div>
-
-      <button class="FilterButton mui-btn mui-btn--raised" ng-if="getFromAuth('filterOn')" ng-click="removeFilter()">Remove Filter</button>
+      <button class="FilterButton mui-btn mui-btn--raised" ng-if="authService['filterOn']" ng-click="removeFilter()">Remove Filter</button>
     </div>
   </div>
   <br/>
-
-  <br/>
-
   <br/>
   <br/>
   <br/>
-
+  <br/>
   <div>
     <ul ng-repeat="question in questions()| orderBy:'-asked' ">
       <div user-question/>

@@ -9,32 +9,28 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
     profileService,
     sendQuestion, 
     addTags,
+    socket,
   };
+
+  Object.assign($scope,services);
+
 
   $scope.questions= () => {
     return authService.questions;
   };
 
-
-  $scope.getFromAuth = (key) => {
-    return authService[key];
-  }
-
-  $scope.getFromSQ = (key) => {
-    return sendQuestion[key];
-  }
-
-  $scope.getOpenFromSQ = (key) => {
-    return sendQuestion.answering[key];
-  }
+  $scope.getOtherQuestions = () => {
+    console.log("this is what GOQ is yielding",authService.otherQuestions);
+    return authService.otherQuestions;
+  };
 
    $scope.getAnswers = (key) => {
     return sendQuestion.answers[key] || [];
   }
 
-  $scope.removeFilter= ()=>{
+  $scope.removeFilter= (otherQuestions)=>{
     console.log("attempting to remove filter");
-    authService.removeFilter();
+    authService.removeFilter(otherQuestions);
     $scope.answersShowing={};
     $(".specQuestion").css({height:"100px"});
     $(".questionsAnswer").css({display:"none"})
@@ -87,10 +83,7 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
     sendQuestion.getQuestions($scope);
   }
 
-  $scope.getOtherQuestions = () => {
-    return authService.otherQuestions;
-  }
-
+  
   $scope.answerQuestion = (id,first,second) => {
     sendQuestion.answerQuestion(id,$scope);
     console.log("first","second",first,second);
@@ -105,12 +98,11 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
     console.log("answers showing",$scope.answersShowing);
   }
 
-   $scope.filter = (tag) => {
-     authService.filter(tag);
+   $scope.filter = (tag, questionType) => {
+     authService.filter(tag, questionType);
   };
 
 });
-
 
 
 

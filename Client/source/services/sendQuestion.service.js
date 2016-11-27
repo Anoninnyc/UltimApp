@@ -87,9 +87,7 @@ myApp.service('sendQuestion', function($compile, socket, authService) {
       scope.answersShowing[id]=!scope.answersShowing[id];
       this.answers[id]=res;
       scope.$apply();
-
-      console.log("whats in the oibj",scope.answersShowing);
-
+      
       if (!scope.answersShowing[id]){
         $(`.specQuestion.${id}`).animate({height:"120px"},1500,function(){
             $(`.questionsAnswer.${id}`).css({display:"none"});

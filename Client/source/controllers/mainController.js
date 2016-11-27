@@ -20,7 +20,6 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
   };
 
   $scope.getOtherQuestions = () => {
-    console.log("this is what GOQ is yielding",authService.otherQuestions);
     return authService.otherQuestions;
   };
 
@@ -93,7 +92,7 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
     sendQuestion.submitAnswer($scope,id,closing);
   }
 
-  $scope.revealAnswers=(id) =>{
+  $scope.revealAnswers = id =>{
     sendQuestion.revealAnswers(id,$scope);
     console.log("answers showing",$scope.answersShowing);
   }
@@ -107,7 +106,5 @@ myApp.controller('myCtrl', function($scope,$location, authService, $window, prof
 
 
 myApp.controller('questionCtrl', function($scope){
-  
   $scope.questionType="othersQuestions";
-
 });

@@ -6,11 +6,10 @@ myApp.service('authService', function($location, $window) {
   this.otherQuestions= (!!window.localStorage.otherQuestions)?JSON.parse(window.localStorage.otherQuestions):undefined;
   this.allOtherQuestions = (!!window.localStorage.otherQuestions)?JSON.parse(window.localStorage.otherQuestions):undefined;
 
-
-
 // Below two are the users OWN questions
   this.allQuestions = !!window.localStorage.userInfo?JSON.parse(window.localStorage.userInfo)['questions']:undefined;
   this.questions= !!window.localStorage.userInfo?JSON.parse(window.localStorage.userInfo)['questions']:undefined;
+
 
   this.filterOn= false;
   this.otherQuestionsFilterOn = false;
@@ -62,6 +61,7 @@ myApp.service('authService', function($location, $window) {
           console.log("this is res",res)
           this.userName=userName;
           localStorage.userInfo=JSON.stringify(res);
+          localStorage.userName=userName;
           localStorage.otherQuestions=JSON.stringify(res.otherQuestions);
           this.otherQuestions = res.otherQuestions;
           this.userInfo = res;
@@ -74,7 +74,6 @@ myApp.service('authService', function($location, $window) {
           $("#userNameTaken").css("display","inline");
           $("#mismatchSignUp").css("display","none");
         }
-
       })
     }
   }

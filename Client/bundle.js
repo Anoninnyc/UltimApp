@@ -205,7 +205,6 @@
 	  };
 
 	  $scope.getOtherQuestions = () => {
-	    console.log("this is what GOQ is yielding",authService.otherQuestions);
 	    return authService.otherQuestions;
 	  };
 
@@ -278,7 +277,7 @@
 	    sendQuestion.submitAnswer($scope,id,closing);
 	  }
 
-	  $scope.revealAnswers=(id) =>{
+	  $scope.revealAnswers = id =>{
 	    sendQuestion.revealAnswers(id,$scope);
 	    console.log("answers showing",$scope.answersShowing);
 	  }
@@ -292,9 +291,7 @@
 
 
 	myApp.controller('questionCtrl', function($scope){
-	  
 	  $scope.questionType="othersQuestions";
-
 	});
 
 /***/ },
@@ -408,6 +405,7 @@
 	          console.log("this is res",res)
 	          this.userName=userName;
 	          localStorage.userInfo=JSON.stringify(res);
+	          localStorage.userName=userName;
 	          localStorage.otherQuestions=JSON.stringify(res.otherQuestions);
 	          this.otherQuestions = res.otherQuestions;
 	          this.userInfo = res;
@@ -660,9 +658,7 @@
 	      scope.answersShowing[id]=!scope.answersShowing[id];
 	      this.answers[id]=res;
 	      scope.$apply();
-
-	      console.log("whats in the oibj",scope.answersShowing);
-
+	      
 	      if (!scope.answersShowing[id]){
 	        $(`.specQuestion.${id}`).animate({height:"120px"},1500,function(){
 	            $(`.questionsAnswer.${id}`).css({display:"none"});
